@@ -1,59 +1,49 @@
-import { useQuery } from "@tanstack/react-query"
+import { useEffect, useState } from "react";
+import api from "./api";
+import "./App.css";
 
-import { Button } from "./components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "./components/ui/card"
-import { Product } from "./types"
-import api from "./api"
-
-import "./App.css"
+interface Category {
+  categoryId: number;
+  categoryName: string;
+ 
+}
 
 function App() {
-  const getProducts = async () => {
-    try {
-      const res = await api.get("/products")
-      return res.data
-    } catch (error) {
-      console.error(error)
-      return Promise.reject(new Error("Something went wrong"))
-    }
-  }
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<any>(null);
 
-  // Queries
-  const { data, error } = useQuery<Product[]>({
-    queryKey: ["products"],
-    queryFn: getProducts
-  })
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await api.get("/categories");
+        setCategories(response.data.data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <div className="App">
-      <h1 className="text-2xl uppercase mb-10">Products</h1>
-
-      <section className="flex flex-col md:flex-row gap-4 justify-between max-w-6xl mx-auto">
-        {data?.map((product) => (
-          <Card key={product.id} className="w-[350px]">
-            <CardHeader>
-              <CardTitle>{product.name}</CardTitle>
-              <CardDescription>Some Description here</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Card Content Here</p>
-            </CardContent>
-            <CardFooter>
-              <Button className="w-full">Add to cart</Button>
-            </CardFooter>
-          </Card>
-        ))}
-      </section>
-      {error && <p className="text-red-500">{error.message}</p>}
+      <h1>Categories</h1>
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>Error fetching categories: {error.message}</p>
+      ) : (
+        <ul>
+          {categories.map((category) => (
+            <li key={category.categoryId}>{category.categoryName}</li>
+          ))}
+        </ul>
+      )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
