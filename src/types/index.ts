@@ -1,8 +1,4 @@
-export type Product = {
-  id: string
-  name: string
-  categoryId: number
-}
+
 
 export type Category = {
 
@@ -11,4 +7,13 @@ CategoryId: number
   CategorySlug: string 
   CategoryDescription: string
   
+}
+export type Product ={
+  productId: number
+  productName: string
+  productSlug: string
+  productDescription: string
+  productPrice: number
+  productImage: string
+  productQuantityInStock: number
 }

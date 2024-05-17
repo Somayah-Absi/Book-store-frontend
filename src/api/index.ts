@@ -14,13 +14,13 @@ const api = axios.create({
 // Make a GET request to fetch categories
 
 api
-  .get("/categories")
+  .get("/products")
   .then((response) => {
     // Handle successful response
     console.log(response.data)
   })
   .catch((error) => {
     // Handle error
-    console.error("Error fetching category:", error)
+    console.error("Error fetching products:", error)
   })
 export default api;
