@@ -17,3 +17,9 @@ export type Product ={
   productImage: string
   productQuantityInStock: number
 }
+
+export type ProductState = {
+  products: Product[]
+  error: null | string
+  isLoading:boolean
+}
