@@ -11,16 +11,5 @@ if (!isDevelopment) {
 const api = axios.create({
   baseURL
 })
-// Make a GET request to fetch categories
 
-api
-  .get("/products")
-  .then((response) => {
-    // Handle successful response
-    console.log(response.data)
-  })
-  .catch((error) => {
-    // Handle error
-    console.error("Error fetching products:", error)
-  })
-export default api;
+export default api

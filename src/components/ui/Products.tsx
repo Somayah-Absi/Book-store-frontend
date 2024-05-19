@@ -16,13 +16,15 @@ export const Products = () => {
   }, [])
 
   return (
-    <div>
-      <h2>Products</h2>
-      {isLoading && <p>Loading ...</p>}
-      {error && <p>Error{error}</p>}
-      {products &&
-        products.length > 0 &&
-        products.map((product) => <SingleProduct key={product.productId} product={product} />)}
+    <div className="product-header">
+      <h1>Products</h1>
+      <div className="products-container">
+        {isLoading && <p>Loading ...</p>}
+        {error && <p>Error{error}</p>}
+        {products &&
+          products.length > 0 &&
+          products.map((product, index) => <SingleProduct key={index} product={product} />)}
+      </div>{" "}
     </div>
   )
 }
