@@ -1,6 +1,5 @@
 import api from "@/api"
 import { ProductState } from "@/types"
-import { Action } from "@cloudinary/url-gen/internal/Action"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 const initialState: ProductState = {
@@ -13,18 +12,28 @@ const initialState: ProductState = {
 // this  action for fetching products from the API
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async ({ pageNumber, pageSize,sortBy }: { pageNumber: number; pageSize: number;sortBy:string }) => {
-    const response = await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`)
+  async ({
+    pageNumber,
+    pageSize,
+    sortBy
+  }: {
+    pageNumber: number
+    pageSize: number
+    sortBy: string
+  }) => {
+    const response = await api.get(
+      `/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`
+    )
     return response.data
   }
 )
 export const searchProducts = createAsyncThunk(
   "products/searchProducts",
   async (keyword: string) => {
-    const response = await api.get(`/products/search?keyword=${keyword}`);
-    return response.data;
+    const response = await api.get(`/products/search?keyword=${keyword}`)
+    return response.data
   }
-);
+)
 export const fetchProductsById = createAsyncThunk(
   "products/fetchProductsById",
   async (ProductId: string | undefined) => {
@@ -44,9 +53,9 @@ const ProductSlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(searchProducts.fulfilled, (state, action) => {
-      state.products = action.payload.data;
-      state.isLoading = false;
-    });
+      state.products = action.payload.data
+      state.isLoading = false
+    })
     builder.addCase(fetchProductsById.fulfilled, (state, action) => {
       state.product = action.payload.data
 

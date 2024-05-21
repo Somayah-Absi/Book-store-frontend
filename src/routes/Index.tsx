@@ -1,9 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-
-import React from "react"
-import Home from "@/pages/Home"
 import NavBar from "@/components/layout/NavBar"
-import ProductsDetail from "@/components/ProductsDetail"
+import { Error, Home, Login, ProductsDetail, Register } from "@/pages/index."
 
 const Index = () => {
   return (
@@ -12,6 +9,9 @@ const Index = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products/:ProductId" element={<ProductsDetail />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
   )

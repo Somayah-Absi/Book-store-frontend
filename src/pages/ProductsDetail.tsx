@@ -1,11 +1,10 @@
 import React, { useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { Products } from "./ui/Products"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchProducts, fetchProductsById } from "@/tookit/slices/ProductSlice"
+import { fetchProductsById } from "@/tookit/slices/ProductSlice"
 import { AppDispatch, RootState } from "@/tookit/slices/store"
 
-const ProductsDetail = () => {
+export const ProductsDetail = () => {
   const { ProductId } = useParams<{ ProductId: string }>() // Use ProductId instead of productId
 
   const { product, isLoading, error } = useSelector((state: RootState) => state.productR)
@@ -18,7 +17,6 @@ const ProductsDetail = () => {
     fetchData()
   }, [])
 
-  // Fetch product details based on ProductId and render them
   return (
     <div id="container">
       <div className="product-details">
@@ -61,4 +59,3 @@ const ProductsDetail = () => {
     </div>
   )
 }
-export default ProductsDetail

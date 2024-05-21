@@ -1,4 +1,3 @@
-import React from "react"
 import { Link } from "react-router-dom"
 
 const NavBar = () => {
@@ -10,7 +9,13 @@ const NavBar = () => {
         </Link>
         <Link to="/products" className="nav-bar">
           Products
-        </Link>{" "}
+        </Link>
+        <Link to="/register" className="nav-bar">
+          Register
+        </Link>
+        <Link to="/login" className="nav-bar">
+          Login
+        </Link>
       </ul>
     </nav>
   )

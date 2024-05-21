@@ -3,8 +3,6 @@ import { AppDispatch, RootState } from "@/tookit/slices/store"
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { SingleProduct } from "../SingleProduct"
-import Index from "@/routes/Index"
-import debounce from "lodash.debounce"
 
 export const Products = () => {
   const { products, isLoading, error, totalPages } = useSelector(
@@ -32,7 +30,7 @@ export const Products = () => {
     setPageNumber((currentPage) => currentPage - 1)
   }
   const handleSearch = async () => {
-    if (searchKeyword.trim() !== "") {
+    if (!searchKeyword.trim()) {
       await dispatch(searchProducts(searchKeyword))
     } else {
       // If search keyword is empty, fetch all products

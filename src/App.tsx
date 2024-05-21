@@ -1,14 +1,8 @@
-
 import "./App.css"
 
 import Index from "./routes/Index"
 
-
-
 function App() {
-  return (
-   
-  <Index/>
-  )
+  return <Index />
 }
 export default App

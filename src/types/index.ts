@@ -1,8 +1,8 @@
 export type Category = {
-  CategoryId: number
-  CategoryName: string
-  CategorySlug: string
-  CategoryDescription: string
+  categoryId: number
+  categoryName: string
+  categorySlug: string
+  categoryDescription: string
 }
 export type Product = {
   productId: number
@@ -16,8 +16,36 @@ export type Product = {
 
 export type ProductState = {
   products: Product[]
-  totalPages:number
+  totalPages: number
   product: Product | null
   error: null | string
   isLoading: boolean
+}
+
+export type FormData = {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  mobile: string
+}
+
+export type User = {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  mobile: string
+  createdAt?: string
+  isAdmin?: boolean
+  isBanned?: boolean
+}
+
+export type UserState = {
+  error: null | string
+  isLoading: boolean
+}
+export type loginData = {
+  email: string
+  password: string
 }
