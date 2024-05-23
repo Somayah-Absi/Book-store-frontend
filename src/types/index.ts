@@ -49,12 +49,14 @@ export type User = {
 
 
 export type UserState = {
-  error: string | null
-  isLoading: boolean
-  isLoggedIn: boolean
-  userData: User | null
-  token: string | null
-}
+  error: string | null | Record<string, never>; // Use Record<string, never> for an empty object
+  isLoading: boolean;
+  isLoggedIn: boolean;
+  userData: User | null;
+  token: string | null;
+  loginStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+};
+
 export type loginFormData = {
   email: string
   password: string

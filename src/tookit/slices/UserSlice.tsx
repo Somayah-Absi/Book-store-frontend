@@ -1,10 +1,10 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "@/api";
-import { User, UserState, editData, loginData, loginFormData } from "@/types";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import api from "@/api"
+import { User, UserState, editData, loginData, loginFormData } from "@/types"
 
 const data = localStorage.getItem("loginData")
   ? JSON.parse(String(localStorage.getItem("loginData")))
-  : { isLoggedIn: false, userData: null, token: null };
+  : { isLoggedIn: false, userData: null, token: null }
 
 const initialState: UserState = {
   error: null,
@@ -12,111 +12,95 @@ const initialState: UserState = {
   isLoggedIn: data.isLoggedIn,
   userData: data.userData,
   token: data.token,
-};
+  loginStatus: "idle" // Initialize loginStatus
+}
 
-export const RegisterUser = createAsyncThunk(
-  "user/registerUser",
-  async (newUser: User) => {
-    const response = await api.post(`/users/register`, newUser);
-    return response.data;
-  }
-);
+export const RegisterUser = createAsyncThunk("user/registerUser", async (newUser: User) => {
+  const response = await api.post(`/users/register`, newUser)
+  return response.data
+})
 
-export const loginUser = createAsyncThunk(
-  "user/loginUser",
-  async (UserData: loginFormData) => {
-    const response = await api.post(`/users/login`, UserData);
-    return response.data;
-  }
-);
+export const loginUser = createAsyncThunk("user/loginUser", async (UserData: loginFormData) => {
+  const response = await api.post(`/users/login`, UserData)
+  return response.data
+})
 
 export const updateUser = createAsyncThunk(
   "user/updateUser",
-  async ({ updateUserData, userId }: {updateUserData:editData,userId:string}) => {
-    const response = await api.put(`/users/${userId}`,updateUserData);
-    return response.data;
+  async ({ updateUserData, userId }: { updateUserData: editData; userId: string }) => {
+    const response = await api.put(`/users/${userId}`, updateUserData)
+    return response.data
   }
-);
+)
 
 const UserSlice = createSlice({
   name: "users",
   initialState: initialState,
   reducers: {
     logOutUser: (state) => {
-      state.isLoggedIn = false;
-      state.userData = null;
-      state.token = null;
+      state.isLoggedIn = false
+      state.userData = null
+      state.token = null
+      state.loginStatus = "idle"
       localStorage.setItem(
         "loginData",
         JSON.stringify({
           isLoggedIn: state.isLoggedIn,
           userData: state.userData,
-          token: state.token,
+          token: state.token
         })
-      );
-    },
+      )
+    }
   },
   extraReducers: (builder) => {
     builder
       .addCase(RegisterUser.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
+        state.isLoading = true
+        state.error = null
+        state.loginStatus = "loading"
       })
       .addCase(RegisterUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isLoggedIn = true;
-        state.userData = action.payload.user;
-        state.token = action.payload.token;
+        state.isLoading = false
+        state.isLoggedIn = true
+        state.userData = action.payload.user
+        state.token = action.payload.token
+        state.loginStatus = "succeeded"
       })
       .addCase(RegisterUser.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message || "Failed to register";
-      }) 
+        state.isLoading = false
+        state.error = action.error.message || "Failed to register"
+        state.loginStatus = "failed"
+      })
       .addCase(loginUser.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
+        state.isLoading = true
+        state.error = null
+        state.loginStatus = "loading"
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         console.log(action.payload.data.userData)
-        if (state.userData) { 
+        if (state.userData) {
           state.userData.firstName = action.payload.data.firstName
-          state.userData.lastName = action.payload.data.lastName 
-          state.userData.mobile = action.payload.data.mobile 
+          state.userData.lastName = action.payload.data.lastName
+          state.userData.mobile = action.payload.data.mobile
           localStorage.setItem(
             "loginData",
             JSON.stringify({
               isLoggedIn: state.isLoggedIn,
               userData: state.userData,
-              token: state.token,
+              token: state.token
             })
-            
-          );
+          )
         }
-        
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isLoggedIn = true;
-        state.userData = action.payload.data.userDto;
-        state.token = action.payload.data.jwt;
-        localStorage.setItem(
-          "loginData",
-          JSON.stringify({
-            isLoggedIn: state.isLoggedIn,
-            userData: state.userData,
-            token: state.token,
-          })
-          
-        );
-      })
+
       .addCase(loginUser.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message || "Failed to login";
-      });
-    
-  },
-});
+        state.isLoading = false
+        state.error = action.error.message || "Failed to login"
+        state.loginStatus = "failed"
+      })
+  }
+})
 
-export const { logOutUser } = UserSlice.actions;
+export const { logOutUser } = UserSlice.actions
 
-export default UserSlice.reducer;
+export default UserSlice.reducer
