@@ -1,6 +1,7 @@
+import { setLocalStorage } from "@/LocalStorage"
 import { loginUser } from "@/tookit/slices/UserSlice"
 import { AppDispatch } from "@/tookit/slices/store"
-import { loginData } from "@/types"
+import {  loginFormData } from "@/types"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
@@ -11,13 +12,26 @@ export const Login = () => {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<loginData>()
+  } = useForm<loginFormData>()
   const dispatch: AppDispatch = useDispatch()
-  const onSubmit: SubmitHandler<loginData> = async (data) => {
+  const onSubmit: SubmitHandler<loginFormData> = async (data) => {
     try {
       const response = await dispatch(loginUser(data))
-      console.log(response)
-      navigate("/")
+      
+      console.log('Login Response:', response);
+
+      if (response.payload && response.payload.data) {
+  // Update local storage
+  setLocalStorage("loginData", {
+    isLoggedIn: true,
+    userData: response.payload.data.userDto,
+    token: response.payload.data.jwt
+  });
+        // Update Redux state
+      }
+      const isAdmin = response.payload.data.isAdmin
+
+      navigate(isAdmin ? "/dashboard/admin" : "/dashboard/user")
     } catch (error) {
       console.log(error)
     }

@@ -29,8 +29,14 @@ export type FormData = {
   password: string
   mobile: string
 }
+export type editData = {
+  firstName: string
+  lastName: string
+  mobile: string
+}
 
 export type User = {
+  userId?:string
   firstName: string
   lastName: string
   email: string
@@ -41,11 +47,21 @@ export type User = {
   isBanned?: boolean
 }
 
+
 export type UserState = {
-  error: null | string
+  error: string | null
   isLoading: boolean
+  isLoggedIn: boolean
+  userData: User | null
+  token: string | null
 }
-export type loginData = {
+export type loginFormData = {
   email: string
   password: string
+}
+
+export type loginData = {
+  isLoggedIn: boolean
+  userData: User | null
+  token:string
 }

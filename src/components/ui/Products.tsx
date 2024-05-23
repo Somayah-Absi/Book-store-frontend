@@ -12,7 +12,7 @@ export const Products = () => {
   const [pageNumber, setPageNumber] = useState(1)
   const [pageSize, setPageSize] = useState(2)
   const [searchKeyword, setSearchKeyword] = useState("")
-  const [sortBy, setSortBy] = useState("id") // Set initial sortBy value to a valid option
+  const [sortBy, setSortBy] = useState("id")
 
   useEffect(() => {
     const fetchData = async () => {
