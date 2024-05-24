@@ -1,10 +1,10 @@
+import { Categories } from '@/components/Categories'
 import React from 'react'
 
 const AdminDashboard = () => {
   return (
     <div>hello
-      <h1>hello</h1>
-    </div>
+<Categories/>    </div>
   )
 }
 

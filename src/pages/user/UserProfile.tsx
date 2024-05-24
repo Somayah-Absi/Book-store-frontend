@@ -18,19 +18,28 @@ const UserProfile = () => {
   } = useForm<editData>()
   const [isFormOpen, setIsFormOpen] = useState(false)
   const onSubmit: SubmitHandler<editData> = async (data) => {
-    if (!userData?.userId) {
-      console.log("user id not found")
-      return
-    }
-    try {
-      const response = await dispatch(
-        updateUser({ updateUserData: data, userId: userData?.userId })
-      )
-      console.log(response)
-    } catch (error) {
-      console.log(error)
-    }
+  if (!userData?.userId) {
+    console.log("User id not found");
+    return;
   }
+
+  try {
+    const jwt = localStorage.getItem("jwt"); // Retrieve JWT token from local storage
+    if (!jwt) {
+      console.error("JWT token not found");
+      return;
+    }
+    
+
+    const response = await dispatch(
+      updateUser({ updateUserData: data, userId: userData.userId, jwt }) // Include JWT token in the payload
+    );
+    console.log(response);
+  } catch (error) {
+    console.error("Update user error:", error);
+  }
+};
+
 
   return (
     <div>
@@ -44,7 +53,7 @@ const UserProfile = () => {
           setIsFormOpen(!isFormOpen)
         }}
       >
-        { isFormOpen?"Close Edit User":"Open Edit User"}
+        {isFormOpen ? "Close Edit User" : "Open Edit User"}
       </button>
       {isFormOpen && (
         <form onSubmit={handleSubmit(onSubmit)} className="form_main">

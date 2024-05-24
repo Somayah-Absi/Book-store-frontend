@@ -1,8 +1,15 @@
 export type Category = {
-  categoryId: number
+  categoryId: string
   categoryName: string
   categorySlug: string
   categoryDescription: string
+}
+export type CategoryState = {
+  categories:Category[]
+  totalPages: number
+  category: Category | null
+  error: null | string
+  isLoading: boolean
 }
 export type Product = {
   productId: number
@@ -36,7 +43,7 @@ export type editData = {
 }
 
 export type User = {
-  userId?:string
+  userId?: string
   firstName: string
   lastName: string
   email: string
@@ -49,13 +56,13 @@ export type User = {
 
 
 export type UserState = {
-  error: string | null | Record<string, never>; // Use Record<string, never> for an empty object
-  isLoading: boolean;
-  isLoggedIn: boolean;
-  userData: User | null;
-  token: string | null;
-  loginStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
-};
+  error: string | null | Record<string, never> // Use Record<string, never> for an empty object
+  isLoading: boolean
+  isLoggedIn: boolean
+  userData: User | null
+  token: string | null
+  loginStatus: "idle" | "loading" | "succeeded" | "failed"
+}
 
 export type loginFormData = {
   email: string
@@ -65,5 +72,5 @@ export type loginFormData = {
 export type loginData = {
   isLoggedIn: boolean
   userData: User | null
-  token:string
+  token: string
 }

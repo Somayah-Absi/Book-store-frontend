@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import api from "@/api"
-import { User, UserState, editData, loginData, loginFormData } from "@/types"
+import { User, UserState, editData, loginFormData } from "@/types"
+import api from "@/api";
 
+interface UpdateUserPayload {
+  updateUserData: editData;
+  userId: string; // Ensure userId is always a string
+  jwt: string; // Ensure jwt is always a string
+}
 const data = localStorage.getItem("loginData")
   ? JSON.parse(String(localStorage.getItem("loginData")))
   : { isLoggedIn: false, userData: null, token: null }
@@ -25,13 +30,35 @@ export const loginUser = createAsyncThunk("user/loginUser", async (UserData: log
   return response.data
 })
 
+
 export const updateUser = createAsyncThunk(
   "user/updateUser",
-  async ({ updateUserData, userId }: { updateUserData: editData; userId: string }) => {
-    const response = await api.put(`/users/${userId}`, updateUserData)
-    return response.data
+  async ({ updateUserData, userId, jwt }: UpdateUserPayload, thunkAPI) => {
+    const token = localStorage.getItem("jwt"); // Retrieve JWT token here
+    if (!token) {
+      throw new Error("JWT token not found");
+    }
+
+    console.log("Update User Payload:", { updateUserData, userId, jwt });
+
+    try {
+      const response = await api.put(`/users/${userId}`, updateUserData, {
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        }
+      });
+
+      console.log("Update User Response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Update User Error:", error);
+      throw error;
+    }
   }
-)
+);
+
+
+
 
 const UserSlice = createSlice({
   name: "users",
@@ -66,6 +93,17 @@ const UserSlice = createSlice({
         state.token = action.payload.token
         state.loginStatus = "succeeded"
       })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.userData = action.payload.userDto;
+        state.token = action.payload.jwt;
+        // Store data in local storage
+        localStorage.setItem("loginData", JSON.stringify({
+          isLoggedIn: true,
+          userData: action.payload.userDto,
+          token: action.payload.jwt
+        }));
+      })
       .addCase(RegisterUser.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message || "Failed to register"
@@ -76,12 +114,14 @@ const UserSlice = createSlice({
         state.error = null
         state.loginStatus = "loading"
       })
-      .addCase(updateUser.fulfilled, (state, action) => {
-        console.log(action.payload.data.userData)
+.addCase(updateUser.fulfilled, (state, action) => {
+        console.log(action.payload.data);
+       
         if (state.userData) {
-          state.userData.firstName = action.payload.data.firstName
-          state.userData.lastName = action.payload.data.lastName
-          state.userData.mobile = action.payload.data.mobile
+          state.userData.firstName = action.payload.data.firstName;
+          state.userData.lastName = action.payload.data.lastName;
+          state.userData.mobile = action.payload.data.mobile;
+
           localStorage.setItem(
             "loginData",
             JSON.stringify({
@@ -89,15 +129,14 @@ const UserSlice = createSlice({
               userData: state.userData,
               token: state.token
             })
-          )
+          );
         }
       })
-
-      .addCase(loginUser.rejected, (state, action) => {
-        state.isLoading = false
-        state.error = action.error.message || "Failed to login"
-        state.loginStatus = "failed"
+      .addCase(updateUser.rejected, (state, action) => {
+   
+        state.error = action.error.message || "Failed to update user";
       })
+      
   }
 })
 

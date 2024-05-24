@@ -7,11 +7,11 @@ import UserDashboard from "@/pages/user/UserDashboard"
 import UserOrders from "@/pages/user/UserOrders"
 import AdminRoute from "./AdminRoute"
 import AdminDashboard from "@/pages/admins/AdminDashboard"
-import Categories from "@/pages/admins/Categories"
 import Orders from "@/pages/admins/Orders"
 import { User } from "lucide-react"
 import { Products } from "@/components/ui/Products"
 import Users from "@/pages/admins/Users"
+import { Categories } from "@/components/Categories"
 
 const Index = () => {
   return (
