@@ -6,7 +6,7 @@ import React, { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
 
-const UserProfile = () => {
+export const UserProfile = () => {
   const { userData } = useUserState()
 
   const dispatch: AppDispatch = useDispatch()
@@ -119,4 +119,4 @@ const UserProfile = () => {
   )
 }
 
-export default UserProfile
+

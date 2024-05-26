@@ -3,10 +3,10 @@ import { Login } from "@/pages/Login"
 
 import { Outlet } from "react-router-dom"
 
-const ProtectedRoute = () => {
+export const ProtectedRoute = () => {
   const {isLoggedIn} = useUserState()
 
   return isLoggedIn ? <Outlet /> : <Login/>
 }
 
-export default ProtectedRoute
+

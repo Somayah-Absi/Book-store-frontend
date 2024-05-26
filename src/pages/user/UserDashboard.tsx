@@ -1,12 +1,11 @@
 import React from 'react'
-import UserProfile from './UserProfile'
+import { UserProfile } from '../index.'
 
-const UserDashboard = () => {
+
+export const UserDashboard = () => {
   return (
     <div>
       <UserProfile />
     </div>
   )
 }
-
-export default UserDashboard

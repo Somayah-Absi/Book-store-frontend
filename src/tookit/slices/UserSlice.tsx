@@ -12,6 +12,8 @@ const data = localStorage.getItem("loginData")
   : { isLoggedIn: false, userData: null, token: null }
 
 const initialState: UserState = {
+  users: [],
+  totalPages:1,
   error: null,
   isLoading: false,
   isLoggedIn: data.isLoggedIn,
@@ -20,6 +22,24 @@ const initialState: UserState = {
   loginStatus: "idle" // Initialize loginStatus
 }
 
+export const fetchUsers = createAsyncThunk(
+  "users/fetchUsers",
+  async ({
+    pageNumber,
+    pageSize
+ 
+  }: {
+    pageNumber: number
+    pageSize: number
+  }) => {
+    const response = await api.get(
+      `/users?pageNumber=${pageNumber}&pageSize=${pageSize}`
+    )
+    console.log(response.data); // Log the actual data structure received
+
+    return response.data
+  }
+)
 export const RegisterUser = createAsyncThunk("user/registerUser", async (newUser: User) => {
   const response = await api.post(`/users/register`, newUser)
   return response.data
@@ -82,6 +102,15 @@ const UserSlice = createSlice({
         state.error = null
         state.loginStatus = "loading"
       })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        console.log(action.payload); // Log the actual data structure received
+        // Adjust the below lines according to the actual structure
+        state.users = action.payload.data.data; // Access the inner data array
+        state.totalPages = action.payload.data.totalCount; // Update totalPages accordingly
+        state.isLoading = false;
+    })
+    
+      
       .addCase(RegisterUser.fulfilled, (state, action) => {
         state.isLoading = false
         state.isLoggedIn = true

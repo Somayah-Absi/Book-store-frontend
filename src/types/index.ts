@@ -56,15 +56,15 @@ export type User = {
   firstName: string
   lastName: string
   email: string
-  password: string
   mobile: string
-  createdAt?: string
   isAdmin?: boolean
   isBanned?: boolean
 }
 
 
 export type UserState = {
+  users:User[]
+  totalPages: number
   error: string | null | Record<string, never> // Use Record<string, never> for an empty object
   isLoading: boolean
   isLoggedIn: boolean

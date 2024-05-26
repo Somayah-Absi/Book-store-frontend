@@ -1,6 +1,6 @@
 import useUserState from "@/components/hooks/useUserState"
 
-const AdminDashboard = () => {
+export const AdminDashboard = () => {
   const { userData } = useUserState()
 
   return (
@@ -34,4 +34,4 @@ const AdminDashboard = () => {
   )
 }
 
-export default AdminDashboard
+

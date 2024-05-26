@@ -3,10 +3,10 @@ import { Login } from "@/pages/Login"
 
 import { Outlet } from "react-router-dom"
 
-const AdminRoute = () => {
+export const AdminRoute = () => {
   const {isLoggedIn,userData} = useUserState()
 
   return isLoggedIn &&userData?.isAdmin ? <Outlet /> : <Login/>
 }
 
-export default AdminRoute
+
