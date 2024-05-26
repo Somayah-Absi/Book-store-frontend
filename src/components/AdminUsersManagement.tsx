@@ -3,12 +3,10 @@ import { useDispatch, useSelector } from "react-redux"
 import useUserState from "./hooks/useUserState"
 import { AppDispatch, RootState } from "@/tookit/slices/store"
 
-import { fetchUsers } from "@/tookit/slices/UserSlice"
+import { DeleteUser, fetchUsers } from "@/tookit/slices/UserSlice"
 
 export const AdminUsersManagement = () => {
-  const { users, isLoading, error, totalPages } = useSelector(
-    (state: RootState) => state.userR
-  )
+  const { users, isLoading, error, totalPages } = useSelector((state: RootState) => state.userR)
   const dispatch: AppDispatch = useDispatch()
 
   const [pageNumber, setPageNumber] = useState(1)
@@ -16,15 +14,14 @@ export const AdminUsersManagement = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(fetchUsers({ pageNumber, pageSize }));
-    };
-    fetchData();
-  }, [dispatch, pageNumber, pageSize]);
-  
+      await dispatch(fetchUsers({ pageNumber, pageSize }))
+    }
+    fetchData()
+  }, [dispatch, pageNumber, pageSize])
 
-  const handleBanUnban = async (id: string | undefined) => {
+  const handleDelete = async (id: string ) => {
     try {
-      console.log("success")
+      dispatch(DeleteUser(id))
     } catch (error) {
       console.log(error)
     }
@@ -42,8 +39,13 @@ export const AdminUsersManagement = () => {
       <table>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Description</th>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Admin</th>
+            <th>Banned</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -61,7 +63,7 @@ export const AdminUsersManagement = () => {
                 <td>{user.isBanned ? "yes" : "No"}</td>
 
                 <td>
-                  <button onClick={() => handleBanUnban(user.userId)}>Banned</button>
+                  <button onClick={() => handleDelete(user.userId)}>Delete</button>
                 </td>
               </tr>
             ))}

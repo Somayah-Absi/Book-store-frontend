@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { User, UserState, editData, loginFormData } from "@/types"
 import api from "@/api"
+import { getToken } from "@/LocalStorage"
 
 interface UpdateUserPayload {
   updateUserData: editData
@@ -40,10 +41,24 @@ export const fetchUsers = createAsyncThunk(
     return response.data
   }
 )
+export const DeleteUser = createAsyncThunk(
+  "users/DeleteUser",
+  async (userId: string) => {
+    await api.delete(`/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
+    return userId
+  }
+)
+
 export const RegisterUser = createAsyncThunk("user/registerUser", async (newUser: User) => {
   const response = await api.post(`/users/register`, newUser)
   return response.data
 })
+
+
 
 export const loginUser = createAsyncThunk("user/loginUser", async (UserData: loginFormData) => {
   const response = await api.post(`/users/login`, UserData)
@@ -109,8 +124,11 @@ const UserSlice = createSlice({
         state.totalPages = action.payload.data.totalCount; // Update totalPages accordingly
         state.isLoading = false;
     })
-    
-      
+  .addCase(DeleteUser.fulfilled, (state, action) => {
+      state.users = state.users.filter(
+        (user) => user.userId !== action.payload
+      )
+    })
       .addCase(RegisterUser.fulfilled, (state, action) => {
         state.isLoading = false
         state.isLoggedIn = true
