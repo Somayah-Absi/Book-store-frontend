@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { User, UserState, editData, loginFormData } from "@/types"
-import api from "@/api";
+import api from "@/api"
 
 interface UpdateUserPayload {
-  updateUserData: editData;
-  userId: string; // Ensure userId is always a string
-  jwt: string; // Ensure jwt is always a string
+  updateUserData: editData
+  userId: string // Ensure userId is always a string
+  jwt: string // Ensure jwt is always a string
 }
 const data = localStorage.getItem("loginData")
   ? JSON.parse(String(localStorage.getItem("loginData")))
@@ -30,35 +30,31 @@ export const loginUser = createAsyncThunk("user/loginUser", async (UserData: log
   return response.data
 })
 
-
 export const updateUser = createAsyncThunk(
   "user/updateUser",
   async ({ updateUserData, userId, jwt }: UpdateUserPayload, thunkAPI) => {
-    const token = localStorage.getItem("jwt"); // Retrieve JWT token here
+    const token = localStorage.getItem("jwt")
     if (!token) {
-      throw new Error("JWT token not found");
+      throw new Error("JWT token not found")
     }
 
-    console.log("Update User Payload:", { updateUserData, userId, jwt });
+    console.log("Update User Payload:", { updateUserData, userId, jwt })
 
     try {
       const response = await api.put(`/users/${userId}`, updateUserData, {
         headers: {
           Authorization: `Bearer ${jwt}`
         }
-      });
+      })
 
-      console.log("Update User Response:", response.data);
-      return response.data;
+      console.log("Update User Response:", response.data)
+      return response.data
     } catch (error) {
-      console.error("Update User Error:", error);
-      throw error;
+      console.error("Update User Error:", error)
+      throw error
     }
   }
-);
-
-
-
+)
 
 const UserSlice = createSlice({
   name: "users",
@@ -94,15 +90,18 @@ const UserSlice = createSlice({
         state.loginStatus = "succeeded"
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.isLoggedIn = true;
-        state.userData = action.payload.userDto;
-        state.token = action.payload.jwt;
-        // Store data in local storage
-        localStorage.setItem("loginData", JSON.stringify({
-          isLoggedIn: true,
-          userData: action.payload.userDto,
-          token: action.payload.jwt
-        }));
+        state.isLoggedIn = true
+        state.userData = action.payload.userDto
+        state.token = action.payload.jwt
+
+        localStorage.setItem(
+          "loginData",
+          JSON.stringify({
+            isLoggedIn: true,
+            userData: action.payload.userDto,
+            token: action.payload.jwt
+          })
+        )
       })
       .addCase(RegisterUser.rejected, (state, action) => {
         state.isLoading = false
@@ -114,13 +113,13 @@ const UserSlice = createSlice({
         state.error = null
         state.loginStatus = "loading"
       })
-.addCase(updateUser.fulfilled, (state, action) => {
-        console.log(action.payload.data);
-       
+      .addCase(updateUser.fulfilled, (state, action) => {
+        console.log(action.payload.data)
+
         if (state.userData) {
-          state.userData.firstName = action.payload.data.firstName;
-          state.userData.lastName = action.payload.data.lastName;
-          state.userData.mobile = action.payload.data.mobile;
+          state.userData.firstName = action.payload.data.firstName
+          state.userData.lastName = action.payload.data.lastName
+          state.userData.mobile = action.payload.data.mobile
 
           localStorage.setItem(
             "loginData",
@@ -129,14 +128,12 @@ const UserSlice = createSlice({
               userData: state.userData,
               token: state.token
             })
-          );
+          )
         }
       })
       .addCase(updateUser.rejected, (state, action) => {
-   
-        state.error = action.error.message || "Failed to update user";
+        state.error = action.error.message || "Failed to update user"
       })
-      
   }
 })
 

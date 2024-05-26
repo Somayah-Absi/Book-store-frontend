@@ -30,12 +30,10 @@ export const Products = () => {
     setPageNumber((currentPage) => currentPage - 1)
   }
   const handleSearch = async () => {
-    if (!searchKeyword.trim()) {
+    if (searchKeyword.trim()) {
       await dispatch(searchProducts(searchKeyword))
     } else {
-      // If search keyword is empty, fetch all products
-      await dispatch(fetchProducts({ pageNumber, pageSize, sortBy: "id" }))
-      // Default to sorting by 'id' if sortBy is not defined
+      await dispatch(fetchProducts({ pageNumber, pageSize, sortBy }))
     }
   }
 
@@ -77,10 +75,11 @@ export const Products = () => {
           Previous
         </button>
         {Array.from({ length: totalPages }, (_, index) => (
-          <button key={index} onClick={() => setPageNumber(index + 1)}>
+          <button key={index + 1} onClick={() => setPageNumber(index + 1)}>
             {index + 1}
           </button>
         ))}
+
         <button onClick={handleNextPage} disabled={pageNumber === totalPages}>
           Next
         </button>

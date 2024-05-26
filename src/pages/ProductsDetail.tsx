@@ -5,7 +5,7 @@ import { fetchProductsById } from "@/tookit/slices/ProductSlice"
 import { AppDispatch, RootState } from "@/tookit/slices/store"
 
 export const ProductsDetail = () => {
-  const { ProductId } = useParams<{ ProductId: string }>() // Use ProductId instead of productId
+  const { ProductId } = useParams<{ ProductId: string }>() 
 
   const { product, isLoading, error } = useSelector((state: RootState) => state.productR)
   const dispatch: AppDispatch = useDispatch()

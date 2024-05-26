@@ -1,22 +1,50 @@
-import React from "react"
-import { Category } from "@/types"
-import { Link } from "react-router-dom"
+import React, { useState } from "react"
+import { Category, CategoryForm, CategoryFormEdit } from "@/types"
 import { useDispatch } from "react-redux"
-import { DeleteCategories } from "@/tookit/slices/CategorySlice"
+import { DeleteCategories, updateCategory } from "@/tookit/slices/CategorySlice"
 import { AppDispatch } from "@/tookit/slices/store"
+import { SubmitHandler, useForm } from "react-hook-form"
 
 export const SingleCategory = (props: { category: Category }) => {
   const { category } = props
   const dispatch: AppDispatch = useDispatch()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm<CategoryFormEdit>()
+
+  const [isEditFormVisible, setIsEditFormVisible] = useState(false)
 
   const handleDelete = (id: string) => {
     dispatch(DeleteCategories(id))
   }
-  const handleEdit = (id: string) => {
-    alert(id)
+
+  const handleEdit = () => {
+    setIsEditFormVisible(!isEditFormVisible)
   }
-  // Log the category data to verify
-  console.log("SingleCategory props:", category)
+
+  const onSubmit: SubmitHandler<CategoryFormEdit> = async (data) => {
+    try {
+      if (!category.categoryId) {
+        console.log("Category id not found")
+        return
+      }
+
+      const response = await dispatch(
+        updateCategory({ updateCategory: data, categoryId: category.categoryId })
+      )
+
+      console.log(response)
+
+      reset()
+
+      setIsEditFormVisible(false)
+    } catch (error) {
+      console.error("Update category error:", error)
+    }
+  }
 
   return (
     <div className="category-card">
@@ -29,19 +57,62 @@ export const SingleCategory = (props: { category: Category }) => {
           onClick={() => {
             handleDelete(category.categoryId)
           }}
-        >Delete
-         <i className="fa-regular fa-eye fa-lg" style={{ color: "#0e131b" }}></i>
+        >
+          Delete
+          <i className="fa-regular fa-eye fa-lg" style={{ color: "#0e131b" }}></i>
         </button>
 
-                  <button onClick={() => {handleEdit(category.categoryId)}} className="btn-grad-cart">
-            Edit 
-            <i
-              className="fa-solid fa-cart-plus fa-lg"
-              style={{ color: "#0c1422", marginLeft: "8px" }}
-            ></i>
-          </button>
-      
+        <button className="btn-grad-cart" onClick={handleEdit}>
+          Edit
+          <i
+            className="fa-solid fa-cart-plus fa-lg"
+            style={{ color: "#0c1422", marginLeft: "8px" }}
+          ></i>
+        </button>
       </div>
+
+      {isEditFormVisible && (
+        <div className="edit-form">
+          <form onSubmit={handleSubmit(onSubmit)} className="form_main">
+            <p className="heading">Edit Category</p>
+
+            <div className="inputContainer">
+              <label htmlFor="categoryName">Category Name</label>
+              <input
+                type="text"
+                defaultValue={category.categoryName}
+                {...register("categoryName", {
+                  required: "Category Name is required",
+                  minLength: {
+                    value: 2,
+                    message: "Category Name must be at least 2 characters"
+                  }
+                })}
+              />
+              {errors.categoryName && <p className="error">{errors.categoryName.message}</p>}
+            </div>
+            <div className="inputContainer">
+              <label htmlFor="categoryDescription">Category Description</label>
+              <input
+                type="text"
+                defaultValue={category.categoryDescription}
+                {...register("categoryDescription", {
+                  required: "Category Description is required",
+                  minLength: {
+                    value: 2,
+                    message: "Category Description must be at least 2 characters"
+                  }
+                })}
+              />
+              {errors.categoryDescription && (
+                <p className="error">{errors.categoryDescription.message}</p>
+              )}
+            </div>
+
+            <button id="button">Submit</button>
+          </form>
+        </div>
+      )}
     </div>
   )
 }

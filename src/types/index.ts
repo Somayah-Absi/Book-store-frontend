@@ -11,6 +11,15 @@ export type CategoryState = {
   error: null | string
   isLoading: boolean
 }
+export type CategoryForm = {
+  categoryName: string
+  categorySlug:string
+  categoryDescription: string
+}
+export type CategoryFormEdit = {
+  categoryName: string
+  categoryDescription: string
+}
 export type Product = {
   productId: number
   productName: string

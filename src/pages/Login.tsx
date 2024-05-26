@@ -1,43 +1,41 @@
-import { setLocalStorage } from "@/LocalStorage";
-import { loginUser } from "@/tookit/slices/UserSlice";
-import { AppDispatch } from "@/tookit/slices/store";
-import { loginFormData } from "@/types";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { setLocalStorage } from "@/LocalStorage"
+import { loginUser } from "@/tookit/slices/UserSlice"
+import { AppDispatch } from "@/tookit/slices/store"
+import { loginFormData } from "@/types"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
 export const Login = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<loginFormData>();
-  const dispatch: AppDispatch = useDispatch();
+  } = useForm<loginFormData>()
+  const dispatch: AppDispatch = useDispatch()
 
   const onSubmit: SubmitHandler<loginFormData> = async (data) => {
     try {
-      const response = await dispatch(loginUser(data)).unwrap();
-      console.log('Login Response:', response);
+      const response = await dispatch(loginUser(data)).unwrap()
+      console.log("Login Response:", response)
 
-      // Validate response structure
       if (response && response.jwt && response.userDto) {
-        // Update local storage
         setLocalStorage("loginData", {
           isLoggedIn: true,
           userData: response.userDto,
           token: response.jwt
-        });
+        })
 
-        const isAdmin = response.userDto.isAdmin;
-        navigate(isAdmin ? "/dashboard/admin" : "/dashboard/user");
+        const isAdmin = response.userDto.isAdmin
+        navigate(isAdmin ? "/dashboard/admin" : "/dashboard/user")
       } else {
-        console.error("Invalid login response structure", response);
+        console.error("Invalid login response structure", response)
       }
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Login error:", error)
     }
-  };
+  }
 
   return (
     <div className="login">
@@ -74,5 +72,5 @@ export const Login = () => {
         <button id="button">Submit</button>
       </form>
     </div>
-  );
-};
+  )
+}
