@@ -5,7 +5,7 @@ export type Category = {
   categoryDescription: string
 }
 export type CategoryState = {
-  categories:Category[]
+  categories: Category[]
   totalPages: number
   category: Category | null
   error: null | string
@@ -13,7 +13,7 @@ export type CategoryState = {
 }
 export type CategoryForm = {
   categoryName: string
-  categorySlug:string
+  categorySlug: string
   categoryDescription: string
 }
 export type CategoryFormEdit = {
@@ -21,13 +21,24 @@ export type CategoryFormEdit = {
   categoryDescription: string
 }
 export type Product = {
-  productId: number
+  productId: string
   productName: string
   productSlug: string
   productDescription: string
   productPrice: number
   productImage: string
   productQuantityInStock: number
+  categoryId: string;
+
+}
+export type CreateProduct = {
+  productId: string
+  productName: string
+  productDescription: string
+  productPrice: number
+  productImage: string
+  productQuantityInStock: number
+  categoryId: string
 }
 
 export type ProductState = {
@@ -52,7 +63,8 @@ export type editData = {
 }
 
 export type User = {
-  userId: string
+
+  userId?: string
   firstName: string
   lastName: string
   email: string
@@ -61,9 +73,8 @@ export type User = {
   isBanned?: boolean
 }
 
-
 export type UserState = {
-  users:User[]
+  users: User[]
   totalPages: number
   error: string | null | Record<string, never> // Use Record<string, never> for an empty object
   isLoading: boolean

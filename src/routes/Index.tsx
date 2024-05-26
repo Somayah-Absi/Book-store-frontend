@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import NavBar from "@/components/layout/NavBar"
 import { AdminDashboard, AdminRoute, AdminUsersManagement, Categories, Error, Home, Login, Orders, Products, ProductsDetail, ProtectedRoute, Register, UserDashboard, UserOrders, UserProfile } from "@/pages/index."
+import { AdminProductsManagement } from "@/components/AdminProductsManagement"
 
 
 const Index = () => {
@@ -10,6 +11,8 @@ const Index = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products/:ProductId" element={<ProductsDetail />} />
+        <Route path="/products" element={<Products />} />
+
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />}></Route>
 
@@ -18,7 +21,7 @@ const Index = () => {
           <Route path="admin/categories" element={<Categories />} />
           <Route path="admin/orders" element={<Orders />} />
           <Route path="admin/users" element={<AdminUsersManagement />} />
-          <Route path="admin/products" element={<Products />} />
+          <Route path="admin/products" element={<AdminProductsManagement />} />
         </Route>
 
         <Route path="/dashboard" element={<ProtectedRoute />}>
