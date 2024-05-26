@@ -13,7 +13,7 @@ const UserProfile = () => {
 
   const {
     register,
-    handleSubmit,
+    handleSubmit,reset,
     formState: { errors }
   } = useForm<editData>()
   const [isFormOpen, setIsFormOpen] = useState(false)
@@ -38,6 +38,10 @@ const UserProfile = () => {
       console.error("Update user error:", error)
     }
   }
+  const handleCancel = () => {
+    setIsFormOpen(false);
+    reset(); 
+  };
 
   return (
     <div>
@@ -54,10 +58,10 @@ const UserProfile = () => {
         {isFormOpen ? "Close Edit User" : "Open Edit User"}
       </button>
       {isFormOpen && (
-        <form onSubmit={handleSubmit(onSubmit)} className="form_main">
-          <p className="heading">Register</p>
+        <form onSubmit={handleSubmit(onSubmit)} className="form-main">
+          <p className="heading">Edit Profile</p>
 
-          <div className="inputContainer">
+          <div className="input-container">
             <label htmlFor="firstName">firstName</label>
             <input
               type="text"
@@ -72,7 +76,7 @@ const UserProfile = () => {
             {errors.firstName && <p className="error">{errors.firstName.message}</p>}
           </div>
 
-          <div className="inputContainer">
+          <div className="input-container">
             <label htmlFor="lastName">lastName</label>
             <input
               type="text"
@@ -87,7 +91,7 @@ const UserProfile = () => {
             {errors.lastName && <p className="error">{errors.lastName.message}</p>}
           </div>
 
-          <div className="inputContainer">
+          <div className="input-container">
             <label htmlFor="mobile">Mobile</label>
             <input
               type="text"
@@ -107,6 +111,8 @@ const UserProfile = () => {
           </div>
 
           <button id="button">Submit</button>
+          <button id="button" type="button" onClick={handleCancel}>Cancel</button>
+
         </form>
       )}
     </div>

@@ -1,56 +1,56 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { SingleCategory } from "./SingleCategory"
-import { Category, CategoryForm } from "@/types" // Import the Category type
-import { CreateCategory, fetchCategories } from "@/tookit/slices/CategorySlice"
-import { AppDispatch, RootState } from "@/tookit/slices/store"
-import { SubmitHandler, useForm } from "react-hook-form"
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { SingleCategory } from "./SingleCategory";
+import { CategoryForm } from "@/types"; // Import the CategoryForm type
+import { CreateCategory, fetchCategories } from "@/tookit/slices/CategorySlice";
+import { AppDispatch, RootState } from "@/tookit/slices/store";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 export const Categories = () => {
   const { categories, isLoading, error, totalPages } = useSelector(
     (state: RootState) => state.categoryR
-  )
+  );
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<CategoryForm>()
-  const dispatch: AppDispatch = useDispatch()
-  const [pageNumber, setPageNumber] = useState(1)
-  const [pageSize] = useState(2)
+  } = useForm<CategoryForm>();
+  const dispatch: AppDispatch = useDispatch();
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize] = useState(2);
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(fetchCategories({ pageNumber, pageSize }))
-    }
-    fetchData()
-  }, [dispatch, pageNumber, pageSize])
+      await dispatch(fetchCategories({ pageNumber, pageSize }));
+    };
+    fetchData();
+  }, [dispatch, pageNumber, pageSize]);
 
   const onSubmit: SubmitHandler<CategoryForm> = async (data) => {
     try {
-      const response = await dispatch(CreateCategory(data))
-      console.log("Form data:", response)
+      const response = await dispatch(CreateCategory(data));
+      console.log("Form data:", response);
     } catch (error) {
-      console.log("Form submission error:", error)
+      console.log("Form submission error:", error);
     }
-  }
+  };
 
   const handleNextPage = () => {
-    setPageNumber((currentPage) => currentPage + 1)
-  }
+    setPageNumber((currentPage) => currentPage + 1);
+  };
 
   const handlePreviousPage = () => {
-    setPageNumber((currentPage) => currentPage - 1)
-  }
+    setPageNumber((currentPage) => currentPage - 1);
+  };
 
   return (
     <div className="category-header">
       <h1>Categories</h1>
       <div>
-        <form onSubmit={handleSubmit(onSubmit)} className="form_main">
-          <p className="heading">Register</p>
+        <form onSubmit={handleSubmit(onSubmit)} className="form-main">
+          <p className="heading">Create Category</p>
 
-          <div className="inputContainer">
+          <div className="input-container">
             <label htmlFor="categoryName">Category Name</label>
             <input
               type="text"
@@ -64,21 +64,21 @@ export const Categories = () => {
             />
             {errors.categoryName && <p className="error">{errors.categoryName.message}</p>}
           </div>
-          <div className="inputContainer">
-            <label htmlFor="categorySlug">Category slug</label>
+          <div className="input-container">
+            <label htmlFor="categorySlug">Category Slug</label>
             <input
               type="text"
               {...register("categorySlug", {
-                required: "categorySlug is required",
+                required: "Category Slug is required",
                 minLength: {
                   value: 2,
-                  message: "categorySlug must be at least 2 characters"
+                  message: "Category Slug must be at least 2 characters"
                 }
               })}
             />
             {errors.categorySlug && <p className="error">{errors.categorySlug.message}</p>}
           </div>
-          <div className="inputContainer">
+          <div className="input-container">
             <label htmlFor="categoryDescription">Category Description</label>
             <input
               type="text"
@@ -98,15 +98,40 @@ export const Categories = () => {
           <button id="button">Submit</button>
         </form>
       </div>
-      <div className="categories-container">
-        {isLoading && <p>Loading ...</p>}
-        {error && <p>Error: {error}</p>}
-        {categories && categories.length > 0
-          ? categories.map((category) => (
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {isLoading && (
+            <tr>
+              <td colSpan={3}>Loading ...</td>
+            </tr>
+          )}
+          {error && (
+            <tr>
+              <td colSpan={3}>Error: {error}</td>
+            </tr>
+          )}
+          {categories && categories.length > 0 ? (
+            categories.map((category) => (
               <SingleCategory key={category.categoryId} category={category} />
             ))
-          : !isLoading && <p>No categories found.</p>}
-      </div>
+          ) : (
+            !isLoading && (
+              <tr>
+                <td colSpan={3}>No categories found.</td>
+              </tr>
+            )
+          )}
+        </tbody>
+      </table>
+      
       <div className="pagination">
         <button onClick={handlePreviousPage} disabled={pageNumber === 1}>
           Previous
@@ -125,5 +150,5 @@ export const Categories = () => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};

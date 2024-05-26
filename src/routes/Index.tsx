@@ -3,12 +3,11 @@ import NavBar from "@/components/layout/NavBar"
 import { Error, Home, Login, ProductsDetail, Register } from "@/pages/index."
 import ProtectedRoute from "./ProtectRoute"
 import UserDashboard from "@/pages/user/UserDashboard"
-// import UserProfile from "@/pages/user/UserProfile"
+import UserProfile from "@/pages/user/UserProfile"
 import UserOrders from "@/pages/user/UserOrders"
 import AdminRoute from "./AdminRoute"
 import AdminDashboard from "@/pages/admins/AdminDashboard"
 import Orders from "@/pages/admins/Orders"
-import { User } from "lucide-react"
 import { Products } from "@/components/ui/Products"
 import Users from "@/pages/admins/Users"
 import { Categories } from "@/components/Categories"
@@ -33,7 +32,7 @@ const Index = () => {
 
         <Route path="/dashboard" element={<ProtectedRoute />}>
           <Route path="user" element={<UserDashboard />} />
-          {/* <Route path="user/profile" element={<UserProfile />} /> */}
+          <Route path="user/profile" element={<UserProfile />} />
           <Route path="user/orders" element={<UserOrders />} />
         </Route>
 
