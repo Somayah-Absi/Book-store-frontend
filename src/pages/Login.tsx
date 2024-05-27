@@ -1,4 +1,5 @@
 import { setLocalStorage } from "@/LocalStorage"
+import PageTitle from "@/components/layout/PageTitle"
 import { loginUser } from "@/tookit/slices/UserSlice"
 import { AppDispatch } from "@/tookit/slices/store"
 import { loginFormData } from "@/types"
@@ -39,6 +40,8 @@ export const Login = () => {
 
   return (
     <div className="login">
+      <PageTitle title="login" />
+
       <form onSubmit={handleSubmit(onSubmit)} className="form_main">
         <p className="heading">Login</p>
         <div className="inputContainer">

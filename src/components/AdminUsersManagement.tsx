@@ -4,6 +4,7 @@ import useUserState from "./hooks/useUserState"
 import { AppDispatch, RootState } from "@/tookit/slices/store"
 
 import { DeleteUser, fetchUsers } from "@/tookit/slices/UserSlice"
+import PageTitle from "./layout/PageTitle"
 
 export const AdminUsersManagement = () => {
   const { users, isLoading, error, totalPages } = useSelector((state: RootState) => state.userR)
@@ -38,6 +39,8 @@ export const AdminUsersManagement = () => {
   }
   return (
     <div className="category-header">
+      <PageTitle title="Users board" />
+
       <h1>Categories</h1>
 
       <table>

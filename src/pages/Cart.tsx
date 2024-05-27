@@ -1,7 +1,12 @@
 import useCartState from "@/components/hooks/useCartState"
-import { decrementQuantity, incrementQuantity, removeAllFromCart, removeFromCart } from "@/tookit/slices/CartSlice"
+import PageTitle from "@/components/layout/PageTitle"
+import {
+  decrementQuantity,
+  incrementQuantity,
+  removeAllFromCart,
+  removeFromCart
+} from "@/tookit/slices/CartSlice"
 import { AppDispatch } from "@/tookit/slices/store"
-import React from "react"
 import { useDispatch } from "react-redux"
 
 export const Cart = () => {
@@ -20,25 +25,28 @@ export const Cart = () => {
       style: "currency",
       currency: "USD"
     })
+  }
+
+  const handleIncrement = (productId?: string) => {
+    if (productId) {
+      dispatch(incrementQuantity(productId))
     }
-    
-    const handleIncrement = (productId?:string) => { 
-        if (productId) { 
-            dispatch(incrementQuantity(productId))
-        }
+  }
+  const handleDecrement = (productId?: string) => {
+    if (productId) {
+      dispatch(decrementQuantity(productId))
     }
-    const handleDecrement = (productId?:string) => { 
-        if (productId) { 
-            dispatch(decrementQuantity(productId))
-        }
-    }
+  }
   const cartTotal = () => {
     let total = 0
-    cartItem && cartItem.map((cartItem) => (total += cartItem.productPrice*cartItem.orderQuantity))
+    cartItem &&
+      cartItem.map((cartItem) => (total += cartItem.productPrice * cartItem.orderQuantity))
     return formatPrice(total)
   }
   return (
     <div>
+      <PageTitle title="Cart" />
+
       {cartItem && cartItem.length > 0 ? (
         <>
           <div className="cart-heading">
@@ -63,9 +71,24 @@ export const Cart = () => {
                   </div>
                   <div className="cart-item-right">
                     <div className="quantity-control">
-                              <button className="delete-item" onClick={() => { handleDecrement(cartItem.productId)}}>-</button>
-                              <span>{cartItem.orderQuantity}</span>
-                              <button className="add-item" onClick={() => { handleIncrement(cartItem.productId) }} disabled={ cartItem.productQuantityInStock===cartItem.orderQuantity}>+</button>
+                      <button
+                        className="delete-item"
+                        onClick={() => {
+                          handleDecrement(cartItem.productId)
+                        }}
+                      >
+                        -
+                      </button>
+                      <span>{cartItem.orderQuantity}</span>
+                      <button
+                        className="add-item"
+                        onClick={() => {
+                          handleIncrement(cartItem.productId)
+                        }}
+                        disabled={cartItem.productQuantityInStock === cartItem.orderQuantity}
+                      >
+                        +
+                      </button>
                     </div>
                     <button
                       className="add-item"
@@ -74,8 +97,7 @@ export const Cart = () => {
                       }}
                     >
                       <i className="fas fa-trash-alt">remove</i>
-                          </button>
-                         
+                    </button>
                   </div>
                 </div>
               ))}

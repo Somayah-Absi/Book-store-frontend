@@ -4,6 +4,7 @@ import { FormData } from "@/types"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import PageTitle from "@/components/layout/PageTitle"
 
 export const Register = () => {
   const navigate = useNavigate()
@@ -25,6 +26,8 @@ export const Register = () => {
 
   return (
     <div className="register">
+      <PageTitle title="Register" />
+
       <form onSubmit={handleSubmit(onSubmit)} className="form_main">
         <p className="heading">Register</p>
 

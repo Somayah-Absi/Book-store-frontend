@@ -5,6 +5,7 @@ import { CategoryForm } from "@/types" // Import the CategoryForm type
 import { CreateCategory, fetchCategories } from "@/tookit/slices/CategorySlice"
 import { AppDispatch, RootState } from "@/tookit/slices/store"
 import { SubmitHandler, useForm } from "react-hook-form"
+import PageTitle from "./layout/PageTitle"
 
 export const Categories = () => {
   const { categories, isLoading, error, totalPages } = useSelector(
@@ -45,6 +46,7 @@ export const Categories = () => {
 
   return (
     <div className="category-header">
+      <PageTitle title="Categories" />
       <h1>Categories</h1>
       <div>
         <form onSubmit={handleSubmit(onSubmit)} className="form-main">

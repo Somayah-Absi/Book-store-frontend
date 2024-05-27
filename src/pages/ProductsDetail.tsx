@@ -5,6 +5,7 @@ import { fetchProductsById } from "@/tookit/slices/ProductSlice"
 import { AppDispatch, RootState } from "@/tookit/slices/store"
 import { addToCart } from "@/tookit/slices/CartSlice"
 import { Product } from "@/types"
+import PageTitle from "@/components/layout/PageTitle"
 
 export const ProductsDetail = () => {
   const { ProductId } = useParams<{ ProductId: string }>()
@@ -25,6 +26,8 @@ export const ProductsDetail = () => {
 
   return (
     <div id="container">
+      <PageTitle title="Products Details" />
+
       <div className="product-details">
         <h1>{product?.productName}</h1>
 
@@ -37,7 +40,9 @@ export const ProductsDetail = () => {
               <i className="fa fa-shopping-cart" aria-hidden="true"></i>
             </span>
             {product && (
-              <span className="buy" onClick={() => handleAddToCart(product)}>Get now</span>
+              <span className="buy" onClick={() => handleAddToCart(product)}>
+                Get now
+              </span>
             )}
           </button>
         </div>
@@ -50,10 +55,12 @@ export const ProductsDetail = () => {
           <h2>Description</h2>
           <ul>
             <li>
-              <strong>Quantity: </strong>{product?.productQuantityInStock}
+              <strong>Quantity: </strong>
+              {product?.productQuantityInStock}
             </li>
             <li>
-              <strong>Decoration: </strong>{product?.productDescription}
+              <strong>Decoration: </strong>
+              {product?.productDescription}
             </li>
             <li>
               <strong>Material: </strong>Eco-Friendly

@@ -1,23 +1,22 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { AppDispatch } from '@/tookit/slices/store';
-import { useDispatch } from 'react-redux';
-import useUserState from '../hooks/useUserState';
-import { logOutUser } from '@/tookit/slices/UserSlice';
-import CartIcon from '../ui/CartIcon';
-import useCartState from '../hooks/useCartState';
+import React from "react"
+import { Link } from "react-router-dom"
+import { AppDispatch } from "@/tookit/slices/store"
+import { useDispatch } from "react-redux"
+import useUserState from "../hooks/useUserState"
+import { logOutUser } from "@/tookit/slices/UserSlice"
+import CartIcon from "../ui/CartIcon"
+import useCartState from "../hooks/useCartState"
 
 const NavBar = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const { isLoggedIn, userData } = useUserState();
-  const { cartItem } = useCartState();
-
+  const dispatch: AppDispatch = useDispatch()
+  const { isLoggedIn, userData } = useUserState()
+  const { cartItem } = useCartState()
 
   const handleLogout = () => {
-    dispatch(logOutUser());
-  };
+    dispatch(logOutUser())
+  }
 
-  console.log(userData);
+  console.log(userData)
 
   return (
     <nav>
@@ -28,10 +27,10 @@ const NavBar = () => {
         {isLoggedIn ? (
           <>
             <Link
-              to={`/dashboard/${userData && userData.isAdmin ? 'admin' : 'user'}`}
+              to={`/dashboard/${userData && userData.isAdmin ? "admin" : "user"}`}
               className="nav-bar"
             >
-              {userData && userData.isAdmin ? 'Admin Dashboard' : 'User Dashboard'}
+              {userData && userData.isAdmin ? "Admin Dashboard" : "User Dashboard"}
             </Link>
             <button onClick={handleLogout} className="nav-bar">
               Logout
@@ -48,14 +47,14 @@ const NavBar = () => {
           </>
         )}
         <Link className="nav-bar cart" to="/dashboard/user/cart">
-          <CartIcon value={ cartItem&&cartItem.length>0?cartItem.length:0} />
+          <CartIcon value={cartItem && cartItem.length > 0 ? cartItem.length : 0} />
         </Link>
         <Link to="/products" className="nav-bar products">
           Products
         </Link>
       </ul>
     </nav>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar

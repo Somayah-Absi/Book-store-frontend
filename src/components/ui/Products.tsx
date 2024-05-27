@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { SingleProduct } from "../SingleProduct"
 import useCategoryState from "../hooks/useCategoryState"
 import { fetchCategories } from "@/tookit/slices/CategorySlice"
+import PageTitle from "../layout/PageTitle"
 
 export const Products = () => {
   const { products, isLoading, error, totalPages } = useSelector(
@@ -99,6 +100,7 @@ export const Products = () => {
 
   return (
     <div className="product-header">
+      <PageTitle title="Products " />
       <h1>Products</h1>
       <div>
         <h2>Filter by Category</h2>

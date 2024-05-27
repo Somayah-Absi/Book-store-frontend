@@ -28,8 +28,7 @@ export type Product = {
   productPrice: number
   productImage: string
   productQuantityInStock: number
-  categoryId: string;
-
+  categoryId: string
 }
 
 export type CreateProduct = {
@@ -64,7 +63,6 @@ export type EditData = {
 }
 
 export type User = {
-
   userId?: string
   firstName: string
   lastName: string
@@ -77,7 +75,7 @@ export type User = {
 export type UserState = {
   users: User[]
   totalPages: number
-  error: string | null | Record<string, never> // Use Record<string, never> for an empty object
+  error: string | null | Record<string, never>
   isLoading: boolean
   isLoggedIn: boolean
   userData: User | null
@@ -96,6 +94,8 @@ export type loginData = {
   token: string
 }
 
+export type CartItem = Product & { orderQuantity: number }
+
 export type CartState = {
-  cartItem: Product[]
+  cartItem: CartItem[]
 }

@@ -1,4 +1,5 @@
 import useUserState from "@/components/hooks/useUserState"
+import PageTitle from "@/components/layout/PageTitle"
 import { updateUser } from "@/tookit/slices/UserSlice"
 import { AppDispatch } from "@/tookit/slices/store"
 import { EditData } from "@/types"
@@ -46,6 +47,8 @@ export const UserProfile = () => {
 
   return (
     <div>
+      <PageTitle title="Profile" />
+
       <h3>
         Name: {userData?.firstName} {userData?.lastName}
       </h3>

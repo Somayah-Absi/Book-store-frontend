@@ -6,9 +6,10 @@ import { Link } from "react-router-dom"
 
 export const SingleProduct = (props: { product: Product }) => {
   const { product } = props
-  const dispatch :AppDispatch=useDispatch()
-  const handleAddToCart = (product:Product) => { 
-dispatch(addToCart(product))  }
+  const dispatch: AppDispatch = useDispatch()
+  const handleAddToCart = (product: Product) => {
+    dispatch(addToCart(product))
+  }
   return (
     <div className="product-card">
       <img src={product.productImage} alt={product.productName} />
@@ -23,7 +24,12 @@ dispatch(addToCart(product))  }
           </button>
         </Link>{" "}
         <Link to="">
-          <button className="btn-grad-cart" onClick={() => { handleAddToCart(product)}}>
+          <button
+            className="btn-grad-cart"
+            onClick={() => {
+              handleAddToCart(product)
+            }}
+          >
             Add to cart
             <i
               className="fa-solid fa-cart-plus fa-lg"

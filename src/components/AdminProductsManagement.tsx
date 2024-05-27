@@ -10,11 +10,15 @@ import {
 import { fetchCategories } from "@/tookit/slices/CategorySlice"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { CreateProduct } from "@/types"
+import PageTitle from "./layout/PageTitle"
 
 export const AdminProductsManagement = () => {
-  const { products, isLoading: productsLoading, error: productsError, totalPages: productTotalPages } = useSelector(
-    (state: RootState) => state.productR
-  )
+  const {
+    products,
+    isLoading: productsLoading,
+    error: productsError,
+    totalPages: productTotalPages
+  } = useSelector((state: RootState) => state.productR)
   const { categories } = useSelector((state: RootState) => state.categoryR)
   const dispatch: AppDispatch = useDispatch()
   const [pageNumber, setPageNumber] = useState(1)
@@ -85,6 +89,8 @@ export const AdminProductsManagement = () => {
 
   return (
     <div className="product-header">
+      <PageTitle title="Products Board" />
+
       <h1>Products</h1>
       <div className="select">
         <h2>Sort By</h2>
@@ -206,7 +212,7 @@ export const AdminProductsManagement = () => {
           {products &&
             products.length > 0 &&
             products.map((product) => {
-              const category = categories.find(cat => cat.categoryId === product.categoryId);
+              const category = categories.find((cat) => cat.categoryId === product.categoryId)
               return (
                 <tr key={product.productId}>
                   <td>{product.productId}</td>
