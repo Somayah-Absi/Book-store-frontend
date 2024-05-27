@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import NavBar from "@/components/layout/NavBar"
-import { AdminDashboard, AdminRoute, AdminUsersManagement, Categories, Error, Home, Login, Orders, Products, ProductsDetail, ProtectedRoute, Register, UserDashboard, UserOrders, UserProfile } from "@/pages/index."
+import { AdminDashboard, AdminRoute, AdminUsersManagement, Cart, Categories, Error, Home, Login, Orders, Products, ProductsDetail, ProtectedRoute, Register, UserDashboard, UserOrders, UserProfile } from "@/pages/index."
 import { AdminProductsManagement } from "@/components/AdminProductsManagement"
 
 
@@ -28,6 +28,8 @@ const Index = () => {
           <Route path="user" element={<UserDashboard />} />
           <Route path="user/profile" element={<UserProfile />} />
           <Route path="user/orders" element={<UserOrders />} />
+          <Route path="user/cart" element={<Cart/>} />
+
         </Route>
 
         <Route path="*" element={<Error />} />

@@ -95,3 +95,7 @@ export type loginData = {
   userData: User | null
   token: string
 }
+
+export type CartState = {
+  cartItem: Product[]
+}

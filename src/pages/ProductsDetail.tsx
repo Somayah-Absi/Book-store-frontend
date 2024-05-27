@@ -3,19 +3,25 @@ import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchProductsById } from "@/tookit/slices/ProductSlice"
 import { AppDispatch, RootState } from "@/tookit/slices/store"
+import { addToCart } from "@/tookit/slices/CartSlice"
+import { Product } from "@/types"
 
 export const ProductsDetail = () => {
-  const { ProductId } = useParams<{ ProductId: string }>() 
+  const { ProductId } = useParams<{ ProductId: string }>()
 
   const { product, isLoading, error } = useSelector((state: RootState) => state.productR)
   const dispatch: AppDispatch = useDispatch()
+
+  const handleAddToCart = (product: Product) => {
+    dispatch(addToCart(product))
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchProductsById(ProductId))
     }
     fetchData()
-  }, [])
+  }, [dispatch, ProductId])
 
   return (
     <div id="container">
@@ -30,7 +36,9 @@ export const ProductsDetail = () => {
             <span className="shopping-cart">
               <i className="fa fa-shopping-cart" aria-hidden="true"></i>
             </span>
-            <span className="buy">Get now</span>
+            {product && (
+              <span className="buy" onClick={() => handleAddToCart(product)}>Get now</span>
+            )}
           </button>
         </div>
       </div>
@@ -39,16 +47,13 @@ export const ProductsDetail = () => {
         <img src={product?.productImage} alt={product?.productName} />
 
         <div className="info">
-          <h2> Description</h2>
+          <h2>Description</h2>
           <ul>
             <li>
-              <strong>Height : </strong>5 Ft{" "}
+              <strong>Quantity: </strong>{product?.productQuantityInStock}
             </li>
             <li>
-              <strong>Shade : </strong>Olive green
-            </li>
-            <li>
-              <strong>Decoration: </strong>balls and bells
+              <strong>Decoration: </strong>{product?.productDescription}
             </li>
             <li>
               <strong>Material: </strong>Eco-Friendly

@@ -41,31 +41,106 @@
   height: 200px; /* Adjust the height as needed */
 }
 
+/* NavBar.css */
+/* NavBar.css */
 nav {
+  background-color: #333;
+  padding: 10px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
   display: flex;
-  justify-content: center;
-  padding: 2vh;
-  background-color: #9ebab8;
+  align-items: center;
 }
 
 .nav-bar {
-  color: #f2ebeb;
-  list-style: none;
-  padding: 1vh 7vh;
+  color: white;
   text-decoration: none;
-  font-weight: bold;
-  font-size: 3vh;
-  text-transform: capitalize;
-  border-top: solid #feffff90;
-  border-radius: 2vh;
-  margin: 0 5vh;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 .nav-bar:hover {
-  border-color: #e78895;
-  color: #e78895;
-  box-shadow: 4px 4px 4px 0px #ffffff;
-  background-color: #fafeff;
+  background-color: #4caf50; /* Green */
+  color: white;
 }
+
+button.nav-bar {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button.nav-bar:hover {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+.nav-bar.active {
+  background-color: #2196f3; /* Blue */
+  color: white;
+}
+
+nav a, nav button {
+  display: flex;
+  align-items: center;
+}
+
+nav a svg, nav button svg {
+  margin-right: 8px;
+}
+
+.nav-bar.register {
+  background-color: #ffeb3b; /* Yellow */
+  color: black;
+}
+
+.nav-bar.login {
+  background-color: #ff5722; /* Deep Orange */
+  color: white;
+}
+
+.nav-bar.cart {
+  background-color: #9c27b0; /* Purple */
+  color: white;
+}
+
+.nav-bar.products {
+  background-color: #03a9f4; /* Light Blue */
+  color: white;
+}
+
+.nav-bar:hover.register {
+  background-color: #cddc39; /* Lime */
+  color: black;
+}
+
+.nav-bar:hover.login {
+  background-color: #e91e63; /* Pink */
+  color: white;
+}
+
+.nav-bar:hover.cart {
+  background-color: #673ab7; /* Deep Purple */
+  color: white;
+}
+
+.nav-bar:hover.products {
+  background-color: #00bcd4; /* Cyan */
+  color: white;
+}
+
+
 
 .btn-grad {
   background-image: linear-gradient(to right, #bdc3c7 0%, #667584cc 51%, #bdc3c7 100%);

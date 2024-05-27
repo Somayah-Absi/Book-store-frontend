@@ -7,16 +7,18 @@ import {
   fetchProducts,
   updateProduct
 } from "@/tookit/slices/ProductSlice"
+import { fetchCategories } from "@/tookit/slices/CategorySlice"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { CreateProduct } from "@/types"
 
 export const AdminProductsManagement = () => {
-  const { products, isLoading, error, totalPages } = useSelector(
+  const { products, isLoading: productsLoading, error: productsError, totalPages: productTotalPages } = useSelector(
     (state: RootState) => state.productR
   )
+  const { categories } = useSelector((state: RootState) => state.categoryR)
   const dispatch: AppDispatch = useDispatch()
   const [pageNumber, setPageNumber] = useState(1)
-  const [pageSize, setPageSize] = useState(2)
+  const [pageSize] = useState(2)
   const [sortBy, setSortBy] = useState("id")
   const [isEditFormVisible, setIsEditFormVisible] = useState(false)
   const [currentProduct, setCurrentProduct] = useState<CreateProduct | null>(null)
@@ -31,6 +33,7 @@ export const AdminProductsManagement = () => {
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchProducts({ pageNumber, pageSize, sortBy }))
+      await dispatch(fetchCategories({ pageNumber: 1, pageSize: 1000 })) // Fetch all categories
     }
     fetchData()
   }, [dispatch, pageNumber, pageSize, sortBy])
@@ -202,28 +205,31 @@ export const AdminProductsManagement = () => {
         <tbody>
           {products &&
             products.length > 0 &&
-            products.map((product) => (
-              <tr key={product.productId}>
-                <td>{product.productId}</td>
-                <td>{product.categoryId}</td>
-                <td>
-                  <img
-                    src={product.productImage}
-                    alt={product.productSlug}
-                    width="50"
-                    height="50"
-                  />
-                </td>
-                <td>{product.productName}</td>
-                <td>{product.productDescription}</td>
-                <td>{product.productPrice}</td>
-                <td>{product.productQuantityInStock}</td>
-                <td>
-                  <button onClick={() => handleEdit(product)}>Edit</button>
-                  <button onClick={() => handleDelete(product.productId)}>Delete</button>
-                </td>
-              </tr>
-            ))}
+            products.map((product) => {
+              const category = categories.find(cat => cat.categoryId === product.categoryId);
+              return (
+                <tr key={product.productId}>
+                  <td>{product.productId}</td>
+                  <td>{category ? category.categoryName : "Unknown"}</td>
+                  <td>
+                    <img
+                      src={product.productImage}
+                      alt={product.productSlug}
+                      width="50"
+                      height="50"
+                    />
+                  </td>
+                  <td>{product.productName}</td>
+                  <td>{product.productDescription}</td>
+                  <td>{product.productPrice}</td>
+                  <td>{product.productQuantityInStock}</td>
+                  <td>
+                    <button onClick={() => handleEdit(product)}>Edit</button>
+                    <button onClick={() => handleDelete(product.productId)}>Delete</button>
+                  </td>
+                </tr>
+              )
+            })}
         </tbody>
       </table>
 
@@ -231,7 +237,7 @@ export const AdminProductsManagement = () => {
         <button onClick={handlePreviousPage} disabled={pageNumber === 1}>
           Previous
         </button>
-        {Array.from({ length: totalPages }, (_, index) => (
+        {Array.from({ length: productTotalPages }, (_, index) => (
           <button
             key={index}
             onClick={() => setPageNumber(index + 1)}
@@ -240,7 +246,7 @@ export const AdminProductsManagement = () => {
             {index + 1}
           </button>
         ))}
-        <button onClick={handleNextPage} disabled={pageNumber === totalPages}>
+        <button onClick={handleNextPage} disabled={pageNumber === productTotalPages}>
           Next
         </button>
       </div>
