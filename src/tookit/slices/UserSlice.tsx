@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { User, UserState, editData, loginFormData } from "@/types"
+import { User, UserState, EditData, loginFormData } from "@/types"
 import api from "@/api"
 import { getToken } from "@/LocalStorage"
 
 interface UpdateUserPayload {
-  updateUserData: editData
-  userId: string // Ensure userId is always a string
-  jwt: string // Ensure jwt is always a string
+  updateUserData: EditData
+  userId: string
+  jwt: string
 }
 const data = localStorage.getItem("loginData")
   ? JSON.parse(String(localStorage.getItem("loginData")))
@@ -14,51 +14,35 @@ const data = localStorage.getItem("loginData")
 
 const initialState: UserState = {
   users: [],
-  totalPages:1,
+  totalPages: 1,
   error: null,
   isLoading: false,
   isLoggedIn: data.isLoggedIn,
   userData: data.userData,
   token: data.token,
-  loginStatus: "idle" // Initialize loginStatus
+  loginStatus: "idle"
 }
 
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
-  async ({
-    pageNumber,
-    pageSize
- 
-  }: {
-    pageNumber: number
-    pageSize: number
-  }) => {
-    const response = await api.get(
-      `/users?pageNumber=${pageNumber}&pageSize=${pageSize}`
-    )
-    console.log(response.data); // Log the actual data structure received
-
+  async ({ pageNumber, pageSize }: { pageNumber: number; pageSize: number }) => {
+    const response = await api.get(`/users?pageNumber=${pageNumber}&pageSize=${pageSize}`)
     return response.data
   }
 )
-export const DeleteUser = createAsyncThunk(
-  "users/DeleteUser",
-  async (userId: string) => {
-    await api.delete(`/users/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${getToken()}`
-      }
-    })
-    return userId
-  }
-)
+export const DeleteUser = createAsyncThunk("users/DeleteUser", async (userId: string) => {
+  await api.delete(`/users/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`
+    }
+  })
+  return userId
+})
 
 export const RegisterUser = createAsyncThunk("user/registerUser", async (newUser: User) => {
   const response = await api.post(`/users/register`, newUser)
   return response.data
 })
-
-
 
 export const loginUser = createAsyncThunk("user/loginUser", async (UserData: loginFormData) => {
   const response = await api.post(`/users/login`, UserData)
@@ -72,9 +56,6 @@ export const updateUser = createAsyncThunk(
     if (!token) {
       throw new Error("JWT token not found")
     }
-
-    console.log("Update User Payload:", { updateUserData, userId, jwt })
-
     try {
       const response = await api.put(`/users/${userId}`, updateUserData, {
         headers: {
@@ -118,17 +99,13 @@ const UserSlice = createSlice({
         state.loginStatus = "loading"
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
-        console.log(action.payload); // Log the actual data structure received
-        // Adjust the below lines according to the actual structure
-        state.users = action.payload.data.data; // Access the inner data array
-        state.totalPages = action.payload.data.totalCount; // Update totalPages accordingly
-        state.isLoading = false;
-    })
-  .addCase(DeleteUser.fulfilled, (state, action) => {
-      state.users = state.users.filter(
-        (user) => user.userId !== action.payload
-      )
-    })
+        state.users = action.payload.data.data // Access the inner data array
+        state.totalPages = action.payload.data.totalCount // Update totalPages accordingly
+        state.isLoading = false
+      })
+      .addCase(DeleteUser.fulfilled, (state, action) => {
+        state.users = state.users.filter((user) => user.userId !== action.payload)
+      })
       .addCase(RegisterUser.fulfilled, (state, action) => {
         state.isLoading = false
         state.isLoggedIn = true

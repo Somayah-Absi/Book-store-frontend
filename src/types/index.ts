@@ -31,6 +31,7 @@ export type Product = {
   categoryId: string;
 
 }
+
 export type CreateProduct = {
   productId: string
   productName: string
@@ -56,7 +57,7 @@ export type FormData = {
   password: string
   mobile: string
 }
-export type editData = {
+export type EditData = {
   firstName: string
   lastName: string
   mobile: string

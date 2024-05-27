@@ -1,74 +1,84 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/tookit/slices/store";
-import { CreateProducts, DeleteProducts, fetchProducts, updateProduct } from "@/tookit/slices/ProductSlice";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { CreateProduct } from "@/types";
+import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "@/tookit/slices/store"
+import {
+  CreateProducts,
+  DeleteProducts,
+  fetchProducts,
+  updateProduct
+} from "@/tookit/slices/ProductSlice"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { CreateProduct } from "@/types"
 
 export const AdminProductsManagement = () => {
   const { products, isLoading, error, totalPages } = useSelector(
     (state: RootState) => state.productR
-  );
-  const dispatch: AppDispatch = useDispatch();
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(2);
-  const [sortBy, setSortBy] = useState("id");
-  const [isEditFormVisible, setIsEditFormVisible] = useState(false);
-  const [currentProduct, setCurrentProduct] = useState<CreateProduct | null>(null);
+  )
+  const dispatch: AppDispatch = useDispatch()
+  const [pageNumber, setPageNumber] = useState(1)
+  const [pageSize, setPageSize] = useState(2)
+  const [sortBy, setSortBy] = useState("id")
+  const [isEditFormVisible, setIsEditFormVisible] = useState(false)
+  const [currentProduct, setCurrentProduct] = useState<CreateProduct | null>(null)
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateProduct>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<CreateProduct>()
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(fetchProducts({ pageNumber, pageSize, sortBy }));
-    };
-    fetchData();
-  }, [dispatch, pageNumber, pageSize, sortBy]);
+      await dispatch(fetchProducts({ pageNumber, pageSize, sortBy }))
+    }
+    fetchData()
+  }, [dispatch, pageNumber, pageSize, sortBy])
 
   const handleDelete = async (id: string) => {
     try {
-      dispatch(DeleteProducts(id));
+      dispatch(DeleteProducts(id))
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   const handleNextPage = () => {
-    setPageNumber((currentPage) => currentPage + 1);
-  };
+    setPageNumber((currentPage) => currentPage + 1)
+  }
 
   const handlePreviousPage = () => {
-    setPageNumber((currentPage) => currentPage - 1);
-  };
+    setPageNumber((currentPage) => currentPage - 1)
+  }
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortBy(event.target.value);
-  };
+    setSortBy(event.target.value)
+  }
 
   const handleEdit = (product: CreateProduct) => {
-    setCurrentProduct(product);
-    setIsEditFormVisible(true);
-    reset(product);
-  };
+    setCurrentProduct(product)
+    setIsEditFormVisible(true)
+    reset(product)
+  }
 
   const handleCancelEdit = () => {
-    setCurrentProduct(null);
-    setIsEditFormVisible(false);
-    reset();
-  };
+    setCurrentProduct(null)
+    setIsEditFormVisible(false)
+    reset()
+  }
 
   const onSubmit: SubmitHandler<CreateProduct> = async (data) => {
     try {
       if (currentProduct) {
-        await dispatch(updateProduct({ productId: currentProduct.productId, updateProduct: data }));
-        handleCancelEdit();
+        await dispatch(updateProduct({ productId: currentProduct.productId, updateProduct: data }))
+        handleCancelEdit()
       } else {
-        await dispatch(CreateProducts(data));
+        await dispatch(CreateProducts(data))
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   return (
     <div className="product-header">
@@ -82,10 +92,10 @@ export const AdminProductsManagement = () => {
           <option value="createDate">Create Date</option>
         </select>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="form_main">
+      <form onSubmit={handleSubmit(onSubmit)} className="form-main">
         <p className="heading">{currentProduct ? "Edit Product" : "Create Product"}</p>
 
-        <div className="inputContainer">
+        <div className="input-container">
           <label htmlFor="productName">Product Name</label>
           <input
             type="text"
@@ -100,7 +110,7 @@ export const AdminProductsManagement = () => {
           {errors.productName && <p className="error">{errors.productName.message}</p>}
         </div>
 
-        <div className="inputContainer">
+        <div className="input-container">
           <label htmlFor="productDescription">Product Description</label>
           <input
             type="text"
@@ -112,10 +122,12 @@ export const AdminProductsManagement = () => {
               }
             })}
           />
-          {errors.productDescription && <p className="error">{errors.productDescription.message}</p>}
+          {errors.productDescription && (
+            <p className="error">{errors.productDescription.message}</p>
+          )}
         </div>
 
-        <div className="inputContainer">
+        <div className="input-container">
           <label htmlFor="productPrice">Product Price</label>
           <input
             type="number"
@@ -130,7 +142,7 @@ export const AdminProductsManagement = () => {
           {errors.productPrice && <p className="error">{errors.productPrice.message}</p>}
         </div>
 
-        <div className="inputContainer">
+        <div className="input-container">
           <label htmlFor="productImage">Product Image URL</label>
           <input
             type="text"
@@ -141,7 +153,7 @@ export const AdminProductsManagement = () => {
           {errors.productImage && <p className="error">{errors.productImage.message}</p>}
         </div>
 
-        <div className="inputContainer">
+        <div className="input-container">
           <label htmlFor="productQuantityInStock">Product Quantity in Stock</label>
           <input
             type="number"
@@ -153,10 +165,12 @@ export const AdminProductsManagement = () => {
               }
             })}
           />
-          {errors.productQuantityInStock && <p className="error">{errors.productQuantityInStock.message}</p>}
+          {errors.productQuantityInStock && (
+            <p className="error">{errors.productQuantityInStock.message}</p>
+          )}
         </div>
 
-        <div className="inputContainer">
+        <div className="input-container">
           <label htmlFor="categoryId">Category ID</label>
           <input
             type="text"
@@ -167,7 +181,9 @@ export const AdminProductsManagement = () => {
           {errors.categoryId && <p className="error">{errors.categoryId.message}</p>}
         </div>
 
-        <button id="button" type="submit">{currentProduct ? "Update" : "Submit"}</button>
+        <button id="button" type="submit">
+          {currentProduct ? "Update" : "Submit"}
+        </button>
         {isEditFormVisible && <button onClick={handleCancelEdit}>Cancel</button>}
       </form>
       <table>
@@ -191,7 +207,12 @@ export const AdminProductsManagement = () => {
                 <td>{product.productId}</td>
                 <td>{product.categoryId}</td>
                 <td>
-                  <img src={product.productImage} alt={product.productSlug} width="50" height="50" />
+                  <img
+                    src={product.productImage}
+                    alt={product.productSlug}
+                    width="50"
+                    height="50"
+                  />
                 </td>
                 <td>{product.productName}</td>
                 <td>{product.productDescription}</td>
@@ -224,5 +245,5 @@ export const AdminProductsManagement = () => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}

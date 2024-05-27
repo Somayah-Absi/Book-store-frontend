@@ -19,11 +19,11 @@ export const AdminUsersManagement = () => {
     fetchData()
   }, [dispatch, pageNumber, pageSize])
 
-  const handleDelete = async (id: string|undefined ) => {
+  const handleDelete = async (id: string | undefined) => {
     try {
-      if (!id) { 
+      if (!id) {
         console.log("user not found")
-        return;
+        return
       }
       dispatch(DeleteUser(id))
     } catch (error) {

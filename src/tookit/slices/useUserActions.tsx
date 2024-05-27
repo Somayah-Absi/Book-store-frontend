@@ -1,13 +1,13 @@
-import { useDispatch } from "react-redux";
-import { logOutUser } from "./UserSlice";
+import { useDispatch } from "react-redux"
+import { logOutUser } from "./UserSlice"
 const useUserActions = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const logout = () => {
-    dispatch(logOutUser());
-  };
+    dispatch(logOutUser())
+  }
 
-  return { logout };
-};
+  return { logout }
+}
 
-export default useUserActions;
+export default useUserActions

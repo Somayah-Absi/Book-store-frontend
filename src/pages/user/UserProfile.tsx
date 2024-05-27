@@ -1,7 +1,7 @@
 import useUserState from "@/components/hooks/useUserState"
 import { updateUser } from "@/tookit/slices/UserSlice"
 import { AppDispatch } from "@/tookit/slices/store"
-import { editData } from "@/types"
+import { EditData } from "@/types"
 import React, { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
@@ -13,11 +13,12 @@ export const UserProfile = () => {
 
   const {
     register,
-    handleSubmit,reset,
+    handleSubmit,
+    reset,
     formState: { errors }
-  } = useForm<editData>()
+  } = useForm<EditData>()
   const [isFormOpen, setIsFormOpen] = useState(false)
-  const onSubmit: SubmitHandler<editData> = async (data) => {
+  const onSubmit: SubmitHandler<EditData> = async (data) => {
     if (!userData?.userId) {
       console.log("User id not found")
       return
@@ -39,9 +40,9 @@ export const UserProfile = () => {
     }
   }
   const handleCancel = () => {
-    setIsFormOpen(false);
-    reset(); 
-  };
+    setIsFormOpen(false)
+    reset()
+  }
 
   return (
     <div>
@@ -111,12 +112,11 @@ export const UserProfile = () => {
           </div>
 
           <button id="button">Submit</button>
-          <button id="button" type="button" onClick={handleCancel}>Cancel</button>
-
+          <button id="button" type="button" onClick={handleCancel}>
+            Cancel
+          </button>
         </form>
       )}
     </div>
   )
 }
-
-

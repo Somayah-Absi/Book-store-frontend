@@ -1,55 +1,55 @@
-import React, { useState } from "react";
-import { Category, CategoryFormEdit } from "@/types";
-import { useDispatch } from "react-redux";
-import { DeleteCategories, updateCategory } from "@/tookit/slices/CategorySlice";
-import { AppDispatch } from "@/tookit/slices/store";
-import { SubmitHandler, useForm } from "react-hook-form";
+import React, { useState } from "react"
+import { Category, CategoryFormEdit } from "@/types"
+import { useDispatch } from "react-redux"
+import { DeleteCategories, updateCategory } from "@/tookit/slices/CategorySlice"
+import { AppDispatch } from "@/tookit/slices/store"
+import { SubmitHandler, useForm } from "react-hook-form"
 
 export const SingleCategory = (props: { category: Category }) => {
-  const { category } = props;
-  const dispatch: AppDispatch = useDispatch();
+  const { category } = props
+  const dispatch: AppDispatch = useDispatch()
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset
-  } = useForm<CategoryFormEdit>();
+  } = useForm<CategoryFormEdit>()
 
-  const [isEditFormVisible, setIsEditFormVisible] = useState(false);
+  const [isEditFormVisible, setIsEditFormVisible] = useState(false)
 
   const handleDelete = (id: string) => {
-    dispatch(DeleteCategories(id));
-  };
+    dispatch(DeleteCategories(id))
+  }
 
   const handleEdit = () => {
-    setIsEditFormVisible(!isEditFormVisible);
-  };
+    setIsEditFormVisible(!isEditFormVisible)
+  }
 
   const handleCancel = () => {
-    setIsEditFormVisible(false);
-    reset(); 
-  };
+    setIsEditFormVisible(false)
+    reset()
+  }
 
   const onSubmit: SubmitHandler<CategoryFormEdit> = async (data) => {
     try {
       if (!category.categoryId) {
-        console.log("Category id not found");
-        return;
+        console.log("Category id not found")
+        return
       }
 
       const response = await dispatch(
         updateCategory({ updateCategory: data, categoryId: category.categoryId })
-      );
+      )
 
-      console.log(response);
+      console.log(response)
 
-      reset();
+      reset()
 
-      setIsEditFormVisible(false);
+      setIsEditFormVisible(false)
     } catch (error) {
-      console.error("Update category error:", error);
+      console.error("Update category error:", error)
     }
-  };
+  }
 
   return (
     <tr>
@@ -63,10 +63,7 @@ export const SingleCategory = (props: { category: Category }) => {
 
         <button className="btn-grad-cart" onClick={handleEdit}>
           Edit
-          <i
-            className="fa-solid fa-edit fa-lg"
-            style={{ color: "#0c1422", marginLeft: "8px" }}
-          ></i>
+          <i className="fa-solid fa-edit fa-lg" style={{ color: "#0c1422", marginLeft: "8px" }}></i>
         </button>
       </td>
 
@@ -109,12 +106,16 @@ export const SingleCategory = (props: { category: Category }) => {
                 )}
               </div>
 
-              <button id="button" type="submit">Submit</button>
-              <button id="button" type="button" onClick={handleCancel}>Cancel</button>
+              <button id="button" type="submit">
+                Submit
+              </button>
+              <button id="button" type="button" onClick={handleCancel}>
+                Cancel
+              </button>
             </form>
           </div>
         </td>
       )}
     </tr>
-  );
-};
+  )
+}

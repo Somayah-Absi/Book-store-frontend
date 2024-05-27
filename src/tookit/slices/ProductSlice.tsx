@@ -11,21 +11,39 @@ const initialState: ProductState = {
   isLoading: false
 }
 
-// This action fetches products from the API
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async ({
     pageNumber,
     pageSize,
-    sortBy
+    sortBy,
+    minPrice,
+    maxPrice,
+    selectedCategory
   }: {
     pageNumber: number
     pageSize: number
     sortBy: string
+    minPrice?: number
+    maxPrice?: number
+    selectedCategory?: string
   }) => {
-    const response = await api.get(
-      `/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`
-    )
+    const params: any = {
+      pageNumber,
+      pageSize,
+      sortBy,
+      categoryId: selectedCategory
+    }
+
+    if (minPrice !== undefined) {
+      params.minPrice = minPrice
+    }
+
+    if (maxPrice !== undefined) {
+      params.maxPrice = maxPrice
+    }
+
+    const response = await api.get(`/products`, { params })
     return response.data
   }
 )
@@ -52,7 +70,7 @@ export const CreateProducts = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   "products/updateProduct",
-  async ({ productId, updateProduct }: { productId: string, updateProduct: CreateProduct }) => {
+  async ({ productId, updateProduct }: { productId: string; updateProduct: CreateProduct }) => {
     try {
       const response = await api.put(`/products/${productId}`, updateProduct, {
         headers: {
@@ -74,10 +92,10 @@ export const DeleteProducts = createAsyncThunk(
       headers: {
         Authorization: `Bearer ${getToken()}`
       }
-    });
-    return productId;
+    })
+    return productId
   }
-);
+)
 
 export const fetchProductsById = createAsyncThunk(
   "products/fetchProductsById",
@@ -104,21 +122,19 @@ const ProductSlice = createSlice({
         state.isLoading = false
       })
       .addCase(DeleteProducts.fulfilled, (state, action) => {
-        state.products = state.products.filter(
-          (product) => product.productId !== action.payload
-        )
+        state.products = state.products.filter((product) => product.productId !== action.payload)
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
-        const updatedProduct = action.payload;
+        const updatedProduct = action.payload
         const index = state.products.findIndex(
           (product) => product.productId === updatedProduct.productId
-        );
+        )
         if (index !== -1) {
-          state.products[index] = updatedProduct;
+          state.products[index] = updatedProduct
         } else {
-          state.products.push(updatedProduct);
+          state.products.push(updatedProduct)
         }
-        localStorage.setItem("products", JSON.stringify(state.products));
+        localStorage.setItem("products", JSON.stringify(state.products))
       })
       .addCase(fetchProductsById.fulfilled, (state, action) => {
         state.product = action.payload.data
