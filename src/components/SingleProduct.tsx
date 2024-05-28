@@ -23,6 +23,11 @@ export const SingleProduct = (props: { product: Product }) => {
             More Details<i className="fa-regular fa-eye fa-lg" style={{ color: "#0e131b" }}></i>
           </button>
         </Link>{" "}
+         <Link to={`/products/${product.productId}`}>
+          <button className="btn-grad">
+            More Details<i className="fa-regular fa-eye fa-lg" style={{ color: "#0e131b" }}></i>
+          </button>
+        </Link>{" "}
         <Link to="">
           <button
             className="btn-grad-cart"
@@ -37,6 +42,7 @@ export const SingleProduct = (props: { product: Product }) => {
             ></i>
           </button>
         </Link>
+        
       </div>{" "}
     </div>
   )
