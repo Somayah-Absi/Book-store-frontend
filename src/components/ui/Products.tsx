@@ -1,26 +1,26 @@
-import { fetchProducts, searchProducts } from "@/tookit/slices/ProductSlice"
-import { AppDispatch, RootState } from "@/tookit/slices/store"
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { SingleProduct } from "../SingleProduct"
-import useCategoryState from "../hooks/useCategoryState"
-import { fetchCategories } from "@/tookit/slices/CategorySlice"
-import PageTitle from "../layout/PageTitle"
+import { fetchProducts, searchProducts } from "@/tookit/slices/ProductSlice";
+import { AppDispatch, RootState } from "@/tookit/slices/store";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { SingleProduct } from "../SingleProduct";
+import useCategoryState from "../hooks/useCategoryState";
+import { fetchCategories } from "@/tookit/slices/CategorySlice";
+import PageTitle from "../layout/PageTitle";
 
 export const Products = () => {
   const { products, isLoading, error, totalPages } = useSelector(
     (state: RootState) => state.productR
-  )
-  const { categories } = useCategoryState()
-  const dispatch: AppDispatch = useDispatch()
+  );
+  const { categories } = useCategoryState();
+  const dispatch: AppDispatch = useDispatch();
 
-  const [pageNumber, setPageNumber] = useState(1)
-  const [pageSize, setPageSize] = useState(4)
-  const [searchKeyword, setSearchKeyword] = useState("")
-  const [sortBy, setSortBy] = useState("id")
-  const [selectedCategory, setSelectedCategory] = useState<string>("")
-  const [minPrice, setMinPrice] = useState<number | undefined>(undefined)
-  const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined)
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(4);
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [sortBy, setSortBy] = useState("id");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [minPrice, setMinPrice] = useState<number | undefined>(undefined);
+  const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
 
   const fetchData = async (
     pageNumber: number,
@@ -28,75 +28,65 @@ export const Products = () => {
     sortBy: string,
     selectedCategory: string
   ) => {
-    console.log("Dispatching fetchProducts with:", {
-      pageNumber,
-      pageSize,
-      sortBy,
-      selectedCategory
-    })
     await dispatch(
       fetchProducts({ pageNumber, pageSize, sortBy, selectedCategory, minPrice, maxPrice })
-    )
-  }
+    );
+  };
 
   useEffect(() => {
-    fetchData(pageNumber, pageSize, sortBy, selectedCategory)
-  }, [pageNumber, pageSize, sortBy, selectedCategory, dispatch, minPrice, maxPrice])
+    fetchData(pageNumber, pageSize, sortBy, selectedCategory);
+  }, [pageNumber, pageSize, sortBy, selectedCategory, minPrice, maxPrice, dispatch]);
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(fetchCategories({ pageNumber, pageSize: 20 }))
-    }
-    fetchData()
-  }, [dispatch])
+      await dispatch(fetchCategories({ pageNumber: 1, pageSize: 20 }));
+    };
+    fetchData();
+  }, [dispatch]);
 
   const handleNextPage = () => {
-    setPageNumber((currentPage) => currentPage + 1)
-  }
+    setPageNumber((currentPage) => currentPage + 1);
+  };
 
   const handlePreviousPage = () => {
-    setPageNumber((currentPage) => currentPage - 1)
-  }
+    setPageNumber((currentPage) => currentPage - 1);
+  };
 
   const handleSearch = async () => {
     if (searchKeyword.trim()) {
-      await dispatch(searchProducts(searchKeyword))
+      await dispatch(searchProducts(searchKeyword));
     } else {
-      await fetchData(pageNumber, pageSize, sortBy, selectedCategory)
+      await fetchData(pageNumber, pageSize, sortBy, selectedCategory);
     }
-  }
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(event.target.value)
-  }
+    setSearchKeyword(event.target.value);
+  };
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortBy(event.target.value)
-  }
+    setSortBy(event.target.value);
+  };
 
   const handleCategoryChange = (categoryId: string) => {
-    setSelectedCategory(categoryId)
-    fetchData(pageNumber, pageSize, sortBy, categoryId)
-  }
+    setSelectedCategory(categoryId);
+    setPageNumber(1);
+    fetchData(1, pageSize, sortBy, categoryId);
+  };
+
   const handleMinPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newMinPrice = e.target.value ? Number(e.target.value) : undefined
-    setMinPrice(newMinPrice)
-    if (!e.target.value) {
-      setMaxPrice(undefined)
-    }
-    setPageNumber(1)
-    fetchData(1, pageSize, sortBy, selectedCategory)
-  }
+    const newMinPrice = e.target.value ? Number(e.target.value) : undefined;
+    setMinPrice(newMinPrice);
+    setPageNumber(1);
+    fetchData(1, pageSize, sortBy, selectedCategory);
+  };
 
   const handleMaxPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newMaxPrice = e.target.value ? Number(e.target.value) : undefined
-    setMaxPrice(newMaxPrice)
-    if (!e.target.value) {
-      setMinPrice(undefined)
-    }
-    setPageNumber(1)
-    fetchData(1, pageSize, sortBy, selectedCategory)
-  }
+    const newMaxPrice = e.target.value ? Number(e.target.value) : undefined;
+    setMaxPrice(newMaxPrice);
+    setPageNumber(1);
+    fetchData(1, pageSize, sortBy, selectedCategory);
+  };
 
   return (
     <div className="products-page">
@@ -112,7 +102,7 @@ export const Products = () => {
               placeholder="Search products..."
             />
             <button onClick={handleSearch}>Search</button>
-          </div>{" "}
+          </div>
           <div className="select">
             <p>Sort By :</p>
             <select name="sortBy" onChange={handleSortChange}>
@@ -149,7 +139,7 @@ export const Products = () => {
             </label>
             <label htmlFor="max-price">
               Max Price:
-              <input  className="price-input" type="text" name="max-price" id="max-price" onChange={handleMaxPrice} />
+              <input className="price-input" type="text" name="max-price" id="max-price" onChange={handleMaxPrice} />
             </label>
           </div>
         </div>
@@ -157,7 +147,6 @@ export const Products = () => {
           <div className="products-container">
             {isLoading && <p>Loading ...</p>}
             {error && <p>Error: {error}</p>}
-
             {products &&
               products.length > 0 &&
               products.map((product, index) => <SingleProduct key={index} product={product} />)}
@@ -178,5 +167,5 @@ export const Products = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

@@ -22,7 +22,7 @@ export const SingleProduct = (props: { product: Product }) => {
           <p className="text-body">In Stock: {product.productQuantityInStock}</p>
         </div>
         <div className="card-footer">
-          <span className="text-title">${product.productPrice}</span>
+          <span className="text-title-price">${product.productPrice}</span>
           <div className="card-button">
             <Link to={`/products/${product.productId}`}>
               <button>
