@@ -18,7 +18,7 @@ export const Categories = () => {
   } = useForm<CategoryForm>()
   const dispatch: AppDispatch = useDispatch()
   const [pageNumber, setPageNumber] = useState(1)
-  const [pageSize] = useState(2)
+  const [pageSize] = useState(4)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,93 +45,97 @@ export const Categories = () => {
   }
 
   return (
-    <div className="category-header">
-      <PageTitle title="Categories" />
-      <h1>Categories</h1>
-      <div>
-        <form onSubmit={handleSubmit(onSubmit)} className="form-main">
+    <div>
+      {" "}
+      <h1 className="category-title">Categories</h1>
+      <div className="category-header">
+        <PageTitle title="Categories" />
+
+        <div className="create-card">
+          {" "}
           <p className="heading">Create Category</p>
-
-          <div className="input-container">
-            <label htmlFor="categoryName">Category Name</label>
-            <input
-              type="text"
-              {...register("categoryName", {
-                required: "Category Name is required",
-                minLength: {
-                  value: 2,
-                  message: "Category Name must be at least 2 characters"
-                }
-              })}
-            />
-            {errors.categoryName && <p className="error">{errors.categoryName.message}</p>}
-          </div>
-          <div className="input-container">
-            <label htmlFor="categorySlug">Category Slug</label>
-            <input
-              type="text"
-              {...register("categorySlug", {
-                required: "Category Slug is required",
-                minLength: {
-                  value: 2,
-                  message: "Category Slug must be at least 2 characters"
-                }
-              })}
-            />
-            {errors.categorySlug && <p className="error">{errors.categorySlug.message}</p>}
-          </div>
-          <div className="input-container">
-            <label htmlFor="categoryDescription">Category Description</label>
-            <input
-              type="text"
-              {...register("categoryDescription", {
-                required: "Category Description is required",
-                minLength: {
-                  value: 2,
-                  message: "Category Description must be at least 2 characters"
-                }
-              })}
-            />
-            {errors.categoryDescription && (
-              <p className="error">{errors.categoryDescription.message}</p>
-            )}
-          </div>
-
-          <button id="button">Submit</button>
-        </form>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading && (
-            <tr>
-              <td colSpan={3}>Loading ...</td>
-            </tr>
-          )}
-          {error && (
-            <tr>
-              <td colSpan={3}>Error: {error}</td>
-            </tr>
-          )}
-          {categories && categories.length > 0
-            ? categories.map((category) => (
-                <SingleCategory key={category.categoryId} category={category} />
-              ))
-            : !isLoading && (
+          <form onSubmit={handleSubmit(onSubmit)} className="input">
+            <div className="input-div">
+              <label htmlFor="categoryName">Category Name</label>
+              <input
+                type="text"
+                {...register("categoryName", {
+                  required: "Category Name is required",
+                  minLength: {
+                    value: 2,
+                    message: "Category Name must be at least 2 characters"
+                  }
+                })}
+              />
+              {errors.categoryName && <p className="error">{errors.categoryName.message}</p>}
+            </div>
+            <div className="input-div">
+              <label htmlFor="categorySlug">Category Slug</label>
+              <input
+                type="text"
+                {...register("categorySlug", {
+                  required: "Category Slug is required",
+                  minLength: {
+                    value: 2,
+                    message: "Category Slug must be at least 2 characters"
+                  }
+                })}
+              />
+              {errors.categorySlug && <p className="error">{errors.categorySlug.message}</p>}
+            </div>
+            <div className="input-div">
+              <label htmlFor="categoryDescription">Category Description</label>
+              <input
+                type="text"
+                {...register("categoryDescription", {
+                  required: "Category Description is required",
+                  minLength: {
+                    value: 2,
+                    message: "Category Description must be at least 2 characters"
+                  }
+                })}
+              />
+              {errors.categoryDescription && (
+                <p className="error">{errors.categoryDescription.message}</p>
+              )}
+            </div>
+            <div className="create-button">
+            <button className="submit">Submit</button></div>
+          </form>
+        </div>
+        <div className="category-list" >
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {isLoading && (
                 <tr>
-                  <td colSpan={3}>No categories found.</td>
+                  <td colSpan={3}>Loading ...</td>
                 </tr>
               )}
-        </tbody>
-      </table>
-
+              {error && (
+                <tr>
+                  <td colSpan={3}>Error: {error}</td>
+                </tr>
+              )}
+              {categories && categories.length > 0
+                ? categories.map((category) => (
+                    <SingleCategory key={category.categoryId} category={category} />
+                  ))
+                : !isLoading && (
+                    <tr>
+                      <td colSpan={3}>No categories found.</td>
+                    </tr>
+                  )}
+            </tbody>
+          </table>
+        </div>
+      </div>{" "}
       <div className="pagination">
         <button onClick={handlePreviousPage} disabled={pageNumber === 1}>
           Previous

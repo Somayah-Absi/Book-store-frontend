@@ -39,41 +39,48 @@ export const Login = () => {
   }
 
   return (
-    <div className="login">
-      <PageTitle title="login" />
-
-      <form onSubmit={handleSubmit(onSubmit)} className="form_main">
-        <p className="heading">Login</p>
-        <div className="inputContainer">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                message: "Invalid email address"
-              }
-            })}
-          />
-          {errors.email && <p className="error">{errors.email.message}</p>}
+    <div>
+      <div className="register-header">
+        <PageTitle title="login" />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div className="create-register">
+            <form onSubmit={handleSubmit(onSubmit)} className="input">
+              <p className="heading">Login</p>
+              <div className="input-div">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                      message: "Invalid email address"
+                    }
+                  })}
+                />
+                {errors.email && <p className="error">{errors.email.message}</p>}
+              </div>
+              <div className="input-div">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters"
+                    }
+                  })}
+                />
+                {errors.password && <p className="error">{errors.password.message}</p>}
+              </div>
+              <div className="create-button">
+                <button className="submit">Submit</button>
+              </div>{" "}
+            </form>
+          </div>
         </div>
-        <div className="inputContainer">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 6,
-                message: "Password must be at least 6 characters"
-              }
-            })}
-          />
-          {errors.password && <p className="error">{errors.password.message}</p>}
-        </div>
-        <button id="button">Submit</button>
-      </form>
+      </div>
     </div>
   )
 }

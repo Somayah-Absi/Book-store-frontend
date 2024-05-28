@@ -38,45 +38,47 @@ export const AdminUsersManagement = () => {
     setPageNumber((currentPage) => currentPage - 1)
   }
   return (
-    <div className="category-header">
+    <div>
       <PageTitle title="Users board" />
 
-      <h1>Categories</h1>
+      <h1 className="category-title">Users</h1>
+      <div className="category-header">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Mobile</th>
+              <th>Admin</th>
+              <th>Banned</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users &&
+              users.length > 0 &&
+              users.map((user) => (
+                <tr key={user.userId}>
+                  <td style={{ backgroundColor: "pink" }}>{user.userId}</td>
+                  <td>{user.firstName}</td>
+                  <td>{user.lastName}</td>
+                  <td>{user.email}</td>
+                  <td>{user.mobile}</td>
+                  <td>{user.isAdmin ? "yes" : "No"}</td>
+                  <td>{user.isBanned ? "yes" : "No"}</td>
 
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Mobile</th>
-            <th>Admin</th>
-            <th>Banned</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users &&
-            users.length > 0 &&
-            users.map((user) => (
-              <tr key={user.userId}>
-                <td>{user.userId}</td>
-                <td>{user.firstName}</td>
-                <td>{user.lastName}</td>
-                <td>{user.email}</td>
-                <td>{user.mobile}</td>
-                <td>{user.isAdmin ? "yes" : "No"}</td>
-                <td>{user.isBanned ? "yes" : "No"}</td>
-
-                <td>
-                  <button onClick={() => handleDelete(user.userId)}>Delete</button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-
+                  <td>
+                    <button onClick={() => handleDelete(user.userId)}>
+                      <i className="fa-regular fa-trash fa-lg" style={{ color: "red" }}></i> Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
       <div className="pagination">
         <button onClick={handlePreviousPage} disabled={pageNumber === 1}>
           Previous

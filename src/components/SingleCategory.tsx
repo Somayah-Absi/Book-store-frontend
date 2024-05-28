@@ -68,12 +68,12 @@ export const SingleCategory = (props: { category: Category }) => {
       </td>
 
       {isEditFormVisible && (
-        <td colSpan={3}>
-          <div className="edit-form">
-            <form onSubmit={handleSubmit(onSubmit)} className="form_main">
-              <p className="heading">Edit Category</p>
-
-              <div className="inputContainer">
+        <td colSpan={3} style={{ width: "50%" }}>
+          <div className="create-card" style={{ padding: "2rem", marginTop: "0rem" }}>
+            {" "}
+            <p className="heading">Edit Category</p>
+            <form onSubmit={handleSubmit(onSubmit)} className="input">
+              <div className="input-div">
                 <label htmlFor="categoryName">Category Name</label>
                 <input
                   type="text"
@@ -88,7 +88,7 @@ export const SingleCategory = (props: { category: Category }) => {
                 />
                 {errors.categoryName && <p className="error">{errors.categoryName.message}</p>}
               </div>
-              <div className="inputContainer">
+              <div className="input-div">
                 <label htmlFor="categoryDescription">Category Description</label>
                 <input
                   type="text"
@@ -105,13 +105,14 @@ export const SingleCategory = (props: { category: Category }) => {
                   <p className="error">{errors.categoryDescription.message}</p>
                 )}
               </div>
-
-              <button id="button" type="submit">
-                Submit
-              </button>
-              <button id="button" type="button" onClick={handleCancel}>
-                Cancel
-              </button>
+              <div className="edit-button">
+                <button className="submit" type="submit">
+                  Submit
+                </button>
+                <button className="button-cancel" type="button" onClick={handleCancel}>
+                  Cancel
+                </button>
+              </div>
             </form>
           </div>
         </td>
