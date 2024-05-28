@@ -2,82 +2,193 @@ App.css
 
 
 
-/* Styles for filter sections */
-.price-container,
-.search-bar,
+/* Page Title */
+.product-header {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Sidebar for Filters */
+.sidebar {
+  width: 20%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.sidebar h2 {
+  font-size: 1.2em;
+}
+
+.sidebar input[type="text"],
+.sidebar select,
+.sidebar button {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* Category Filter */
+.category-filter {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.category-filter div {
+  margin-bottom: 10px;
+}
+
+/* Price Filter */
+.price-container {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.price-container label {
+  display: block;
+  margin-bottom: 10px;
+}
+.price-container .price-input {
+background-color: #d2d5d8;
+border-radius: 5px;
+}
+
+/* Search Bar */
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: calc(100% - 70px);
+  display: inline-block;
+}
+
+.search-bar button {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  width: 60px;
+  display: inline-block;
+}
+
+.search-bar button:hover {
+  background-color: #0056b3;
+}
+
+/* Sorting Dropdown */
 .select {
   margin-bottom: 20px;
 }
 
-/* Adjust the size of input fields and buttons in filter sections */
-.price-container input[type="text"],
-.search-bar input[type="text"],
-.select select,
-.search-bar button {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.select select {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-/* Products container */
+/* Products Container */
+.main-content {
+  width: 75%;
+  padding: 100px 200px;
+  box-sizing: border-box;
+}
+
 .products-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 10px;
 }
 
-/* Pagination buttons */
-.pagination {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-/* Styles for product cards */
+/* Product Card */
+/* Product Card */
 .product-card {
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 25px;
+  padding: 20px;
   background-color: #f9f9f9;
-  width: 100%; /* Adjusted width to occupy full space in grid */
-}
-
-.product-card img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
-}
-
-/* Styles for text in product cards */
-.text-title {
-  font-weight: 900;
-  font-size: 1.2em;
-  line-height: 1.5;
-}
-
-.text-body {
-  font-size: 0.9em;
-  padding-bottom: 10px;
-}
-
-/* Styles for buttons in product cards */
-.card-button {
-  border: 1px solid #252525;
+  width: 300px; /* Fixed width for all product cards */
   display: flex;
-  padding: 0.3em;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 10px;
+  transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.card:hover {
+  transform: scale(1.05); /* Enlarge the card on hover */
+}
+
+.card-img {
+  width: 100%;
+  height: 200px; /* Fixed height for the image container */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-img img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.card-info {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.card-footer .text-title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.card-button {
+  display: flex;
+  align-items: center;
+}
+
+.card-button button {
+  border: 1px solid #252525;
+  padding: 1px 10px;
   cursor: pointer;
   border-radius: 50px;
   transition: 0.3s ease-in-out;
-  margin-top: 10px;
+  background-color: #fff;
 }
 
-.card-button:hover {
+.card-button button:hover {
   border: 1px solid #ffcaa6;
   background-color: #ffcaa6;
 }
 
-/* Pagination buttons */
+.card-button i {
+  margin-left: 8px;
+}
+
+/* Pagination */
 .pagination {
   display: flex;
   justify-content: center;
@@ -85,18 +196,8 @@ App.css
   margin-top: 20px;
 }
 
-/* Styles for search input and select dropdown */
-.search-bar input[type="text"],
-.select select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.search-bar button {
-  padding: 8px 12px;
-}
 /* NavBar.css */
+
 /* NavBar.css */
 .nav-list {
   display: flex;
@@ -250,7 +351,7 @@ App.css
 }
 
 .menu li a:hover {
-  color: #E78895;
+  color: #e78895;
 }
 
 /* add media  */
@@ -390,9 +491,6 @@ App.css
   width: 100%;
   height: 100%;
 }
-
-
-
 
 .info {
   background: rgba(27, 26, 26, 0.9);
@@ -585,7 +683,7 @@ tbody tr:hover {
   padding: 8px 12px;
   margin-right: 8px;
   border: none;
-  background-color: #007bff;
+  background-color: #bc87cb;
   color: #fff;
   cursor: pointer;
   border-radius: 4px;
@@ -597,7 +695,7 @@ tbody tr:hover {
 }
 
 .pagination button.active {
-  background-color: #0056b3;
+  background-color: #b279a5;
 }
 /* AdminDashboard.css */
 
@@ -639,4 +737,25 @@ tbody tr:hover {
 
 .menu li a:hover {
   text-decoration: underline;
+}
+
+/* Styles for the error page */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full height of the viewport */
+  text-align: center;
+}
+
+.error-icon {
+  font-size: 5rem; /* Medium size icon */
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  font-size: 1.5rem;
+  color: #333;
 }

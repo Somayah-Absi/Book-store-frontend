@@ -15,7 +15,7 @@ export const Products = () => {
   const dispatch: AppDispatch = useDispatch()
 
   const [pageNumber, setPageNumber] = useState(1)
-  const [pageSize, setPageSize] = useState(2)
+  const [pageSize, setPageSize] = useState(4)
   const [searchKeyword, setSearchKeyword] = useState("")
   const [sortBy, setSortBy] = useState("id")
   const [selectedCategory, setSelectedCategory] = useState<string>("")
@@ -99,78 +99,83 @@ export const Products = () => {
   }
 
   return (
-    <div className="product-header">
-      <PageTitle title="Products " />
-      <h1 className="product-header">Products</h1>
-      <div>
-        <h2>Filter by Category</h2>
-        {categories &&
-          categories.length > 0 &&
-          categories.map((category) => (
-            <div key={category.categoryId}>
-              <label htmlFor={`category-${category.categoryId}`}>
-                <input
-                  type="radio"
-                  id={`category-${category.categoryId}`}
-                  name="category"
-                  value={category.categoryId}
-                  onChange={() => handleCategoryChange(category.categoryId)}
-                />
-                {category.categoryName}
-              </label>
-            </div>
-          ))}
-      </div>
-      <div className="price-container">
-        <h2>Filter by Price</h2>
-        <label htmlFor="min-price">
-          Min Price:
-          <input type="text" name="min-price" id="min-price" onChange={handleMinPrice} />
-        </label>
-        <label htmlFor="max-price">
-          Max Price:
-          <input type="text" name="max-price" id="max-price" onChange={handleMaxPrice} />
-        </label>
-      </div>
-      
-      <div className="products-container">
-
-        {isLoading && <p>Loading ...</p>}
-        {error && <p>Error{error}</p>}
-        <div className="search-bar">
-          <input
-            type="text"
-            value={searchKeyword}
-            onChange={handleInputChange}
-            placeholder="Search products..."
-          />
-          <button onClick={handleSearch}>Search</button>
+    <div className="products-page">
+      <PageTitle title="Products" />
+      <div style={{ display: "flex" }}>
+        <div className="sidebar">
+          <h1 className="product-header">Products</h1>
+          <div className="search-bar">
+            <input
+              type="text"
+              value={searchKeyword}
+              onChange={handleInputChange}
+              placeholder="Search products..."
+            />
+            <button onClick={handleSearch}>Search</button>
+          </div>{" "}
+          <div className="select">
+            <p>Sort By :</p>
+            <select name="sortBy" onChange={handleSortChange}>
+              <option value="id">ID</option>
+              <option value="price">Price</option>
+              <option value="product name">Product Name</option>
+              <option value="create date">Create Date</option>
+            </select>
+          </div>
+          <div className="category-filter">
+            <h2>Filter by Category</h2>
+            {categories &&
+              categories.length > 0 &&
+              categories.map((category) => (
+                <div key={category.categoryId}>
+                  <label htmlFor={`category-${category.categoryId}`}>
+                    <input
+                      type="radio"
+                      id={`category-${category.categoryId}`}
+                      name="category"
+                      value={category.categoryId}
+                      onChange={() => handleCategoryChange(category.categoryId)}
+                    />
+                    {category.categoryName}
+                  </label>
+                </div>
+              ))}
+          </div>
+          <div className="price-container">
+            <h2>Filter by Price</h2>
+            <label htmlFor="min-price">
+              Min Price:
+              <input className="price-input" type="text" name="min-price" id="min-price" onChange={handleMinPrice} />
+            </label>
+            <label htmlFor="max-price">
+              Max Price:
+              <input  className="price-input" type="text" name="max-price" id="max-price" onChange={handleMaxPrice} />
+            </label>
+          </div>
         </div>
-        <div className="select">
-          <select name="sortBy" onChange={handleSortChange}>
-            <option value="id">ID</option>
-            <option value="price">Price</option>
-            <option value="product name">Product Name</option>
-            <option value="create date">Create Date</option>{" "}
-          </select>
-        </div>
-        {products &&
-          products.length > 0 &&
-          products.map((product, index) => <SingleProduct key={index} product={product} />)}
-      </div>{" "}
-      <div className="pagination">
-        <button onClick={handlePreviousPage} disabled={pageNumber === 1}>
-          Previous
-        </button>
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button key={index + 1} onClick={() => setPageNumber(index + 1)}>
-            {index + 1}
-          </button>
-        ))}
+        <div className="main-content">
+          <div className="products-container">
+            {isLoading && <p>Loading ...</p>}
+            {error && <p>Error: {error}</p>}
 
-        <button onClick={handleNextPage} disabled={pageNumber === totalPages}>
-          Next
-        </button>
+            {products &&
+              products.length > 0 &&
+              products.map((product, index) => <SingleProduct key={index} product={product} />)}
+          </div>
+          <div className="pagination">
+            <button onClick={handlePreviousPage} disabled={pageNumber === 1}>
+              Previous
+            </button>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button key={index + 1} onClick={() => setPageNumber(index + 1)}>
+                {index + 1}
+              </button>
+            ))}
+            <button onClick={handleNextPage} disabled={pageNumber === totalPages}>
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   )
