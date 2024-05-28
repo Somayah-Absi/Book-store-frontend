@@ -1,6 +1,7 @@
 import React from "react";
 import useUserState from "@/components/hooks/useUserState";
 import PageTitle from "@/components/layout/PageTitle";
+import { Link } from "react-router-dom";
 
 export const AdminDashboard = () => {
   const { userData } = useUserState();
@@ -16,16 +17,16 @@ export const AdminDashboard = () => {
       </div>
       <ul className="menu">
         <li>
-          <a href="admin/categories">Category</a>
+          <Link to="admin/categories">Category</Link>
         </li>
         <li>
-          <a href="admin/orders">Orders</a>
+          <Link to="admin/orders">Orders</Link>
         </li>
         <li>
-          <a href="admin/products">Products</a>
+          <Link to="admin/products">Products</Link>
         </li>
         <li>
-          <a href="admin/users">Users</a>
+          <Link to="admin/users">Users</Link>
         </li>
       </ul>
     </div>
