@@ -17,7 +17,7 @@ export const AdminDashboard = () => {
       </div>
       <ul className="menu">
         <li>
-          <Link to="/dashboard/admin/categories">Category</Link>
+          <Link to="/categories">Category</Link>
         </li>
         <li>
           <Link to="/dashboard/admin/orders">Orders</Link>
