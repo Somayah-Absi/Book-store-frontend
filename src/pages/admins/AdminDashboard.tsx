@@ -1,9 +1,9 @@
-import React from "react"
-import useUserState from "@/components/hooks/useUserState"
-import PageTitle from "@/components/layout/PageTitle"
+import React from "react";
+import useUserState from "@/components/hooks/useUserState";
+import PageTitle from "@/components/layout/PageTitle";
 
 export const AdminDashboard = () => {
-  const { userData } = useUserState()
+  const { userData } = useUserState();
 
   return (
     <div className="container">
@@ -29,5 +29,5 @@ export const AdminDashboard = () => {
         </li>
       </ul>
     </div>
-  )
-}
+  );
+};

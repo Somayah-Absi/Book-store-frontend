@@ -1,60 +1,72 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import { AppDispatch } from "@/tookit/slices/store"
-import { useDispatch } from "react-redux"
-import useUserState from "../hooks/useUserState"
-import { logOutUser } from "@/tookit/slices/UserSlice"
-import CartIcon from "../ui/CartIcon"
-import useCartState from "../hooks/useCartState"
+import React from "react";
+import { Link } from "react-router-dom";
+import { AppDispatch } from "@/tookit/slices/store";
+import { useDispatch } from "react-redux";
+import useUserState from "../hooks/useUserState";
+import { logOutUser } from "@/tookit/slices/UserSlice";
+import CartIcon from "../ui/CartIcon";
+import useCartState from "../hooks/useCartState";
 
 const NavBar = () => {
-  const dispatch: AppDispatch = useDispatch()
-  const { isLoggedIn, userData } = useUserState()
-  const { cartItem } = useCartState()
+  const dispatch: AppDispatch = useDispatch();
+  const { isLoggedIn, userData } = useUserState();
+  const { cartItem } = useCartState();
 
   const handleLogout = () => {
-    dispatch(logOutUser())
-  }
-
-  console.log(userData)
+    dispatch(logOutUser());
+  };
 
   return (
     <nav>
-      <ul>
-        <Link to="/" className="nav-bar">
-          Home
-        </Link>
+      <ul className="nav-list">
+        <li>
+          <Link to="/" className="nav-link">
+            Home
+          </Link>
+        </li>
         {isLoggedIn ? (
           <>
-            <Link
-              to={`/dashboard/${userData && userData.isAdmin ? "admin" : "user"}`}
-              className="nav-bar"
-            >
-              {userData && userData.isAdmin ? "Admin Dashboard" : "User Dashboard"}
-            </Link>
-            <button onClick={handleLogout} className="nav-bar">
-              Logout
-            </button>
+            <li>
+              <Link
+                to={`/dashboard/${userData && userData.isAdmin ? "admin" : "user"}`}
+                className="nav-link"
+              >
+                {userData && userData.isAdmin ? "Admin Dashboard" : "User Dashboard"}
+              </Link>
+            </li>
+            <li>
+              <button onClick={handleLogout} className="nav-link logout">
+                Logout
+              </button>
+            </li>
           </>
         ) : (
           <>
-            <Link to="/register" className="nav-bar register">
-              Register
-            </Link>
-            <Link to="/login" className="nav-bar login">
-              Login
-            </Link>
+            <li>
+              <Link to="/register" className="nav-link register">
+                Register
+              </Link>
+            </li>
+            <li>
+              <Link to="/login" className="nav-link login">
+                Login
+              </Link>
+            </li>
           </>
         )}
-        <Link className="nav-bar cart" to="/dashboard/user/cart">
-          <CartIcon value={cartItem && cartItem.length > 0 ? cartItem.length : 0} />
-        </Link>
-        <Link to="/products" className="nav-bar products">
-          Products
-        </Link>
+        <li>
+          <Link className="nav-link cart" to="/dashboard/user/cart">
+            <CartIcon value={cartItem && cartItem.length > 0 ? cartItem.length : 0} />
+          </Link>
+        </li>
+        <li>
+          <Link to="/products" className="nav-link products">
+            Products
+          </Link>
+        </li>
       </ul>
     </nav>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;

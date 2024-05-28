@@ -101,7 +101,7 @@ export const Products = () => {
   return (
     <div className="product-header">
       <PageTitle title="Products " />
-      <h1>Products</h1>
+      <h1 className="product-header">Products</h1>
       <div>
         <h2>Filter by Category</h2>
         {categories &&
@@ -132,7 +132,9 @@ export const Products = () => {
           <input type="text" name="max-price" id="max-price" onChange={handleMaxPrice} />
         </label>
       </div>
+      
       <div className="products-container">
+
         {isLoading && <p>Loading ...</p>}
         {error && <p>Error{error}</p>}
         <div className="search-bar">

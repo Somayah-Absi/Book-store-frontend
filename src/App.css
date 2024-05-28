@@ -1,148 +1,182 @@
-/* App.css */
+App.css 
 
-/* Container for the list of products */
+
+
+/* Styles for filter sections */
+.price-container,
+.search-bar,
+.select {
+  margin-bottom: 20px;
+}
+
+/* Adjust the size of input fields and buttons in filter sections */
+.price-container input[type="text"],
+.search-bar input[type="text"],
+.select select,
+.search-bar button {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Products container */
 .products-container {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(300px, 1fr)
-  ); /* Responsive grid with minimum width of 300px */
-  gap: 50px; /* Spacing between grid items */
-  list-style: none; /* Remove default list styles */
-  padding: 50px 200px;
-}
-.product-header h1 {
-  padding: 10px 800px;
-
-  font-size: 50px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
 }
 
-/* Individual product card */
+/* Pagination buttons */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Styles for product cards */
 .product-card {
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 20px;
+  padding: 25px;
   background-color: #f9f9f9;
-  /* Set fixed dimensions for the product card */
-  width: 300px;
-}
-
-.product-card h2 {
-  margin-top: 0;
+  width: 100%; /* Adjusted width to occupy full space in grid */
 }
 
 .product-card img {
-  max-width: 100%; /* Ensure image does not exceed container width */
-  height: auto; /* Maintain aspect ratio */
+  max-width: 100%;
+  height: auto;
   border-radius: 4px;
-  margin-bottom: 10px;
-  /* Set fixed dimensions for the image */
-  width: 100%;
-  height: 200px; /* Adjust the height as needed */
 }
 
-/* NavBar.css */
-/* NavBar.css */
-nav {
-  background-color: #333;
-  padding: 10px;
+/* Styles for text in product cards */
+.text-title {
+  font-weight: 900;
+  font-size: 1.2em;
+  line-height: 1.5;
 }
 
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+.text-body {
+  font-size: 0.9em;
+  padding-bottom: 10px;
+}
+
+/* Styles for buttons in product cards */
+.card-button {
+  border: 1px solid #252525;
   display: flex;
-  align-items: center;
-}
-
-.nav-bar {
-  color: white;
-  text-decoration: none;
-  padding: 10px 20px;
-  margin-right: 10px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.nav-bar:hover {
-  background-color: #4caf50; /* Green */
-  color: white;
-}
-
-button.nav-bar {
-  background: none;
-  border: none;
-  color: white;
+  padding: 0.3em;
   cursor: pointer;
-  padding: 10px 20px;
-  margin-right: 10px;
+  border-radius: 50px;
+  transition: 0.3s ease-in-out;
+  margin-top: 10px;
+}
+
+.card-button:hover {
+  border: 1px solid #ffcaa6;
+  background-color: #ffcaa6;
+}
+
+/* Pagination buttons */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Styles for search input and select dropdown */
+.search-bar input[type="text"],
+.select select {
+  padding: 8px;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-button.nav-bar:hover {
-  background-color: #f44336; /* Red */
-  color: white;
+.search-bar button {
+  padding: 8px 12px;
+}
+/* NavBar.css */
+/* NavBar.css */
+.nav-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #9ebab8;
+  border-radius: 50px;
 }
 
-.nav-bar.active {
-  background-color: #2196f3; /* Blue */
-  color: white;
+.nav-link {
+  color: #f2ebeb;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: bold;
+  text-transform: capitalize;
+  padding: 10px 40px;
+  transition: color 0.3s ease; /* Only transition color */
 }
 
-nav a, nav button {
+/* Adjust cart icon size */
+.cart-icon {
+  transition: transform 0.3s ease; /* Apply transition effect for transform */
+}
+
+.nav-link:not(.cart):hover {
+  border-color: #e78895;
+  color: #e78895;
+  box-shadow: 4px 1px 1px 0px #ffffff;
+  background-color: #fafeff;
+}
+
+/* Adjust hover effect for cart icon */
+.cart-icon:hover {
+  transform: scale(1.2); /* Increase size by 20% */
+}
+
+.logout {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.button-container {
+  display: flex;
+  background-color: rgba(245, 73, 144);
+  width: 50px;
+  height: 20px;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px, rgba(245, 73, 144, 0.5) 5px 10px 15px;
+}
+
+.button {
+  outline: 0 !important;
+  border: 0 !important;
+  width: 20px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: transparent;
   display: flex;
   align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: all ease-in-out 0.3s;
+  cursor: pointer;
 }
 
-nav a svg, nav button svg {
-  margin-right: 8px;
+.button:hover {
+  transform: translateY(-3px);
 }
 
-.nav-bar.register {
-  background-color: #ffeb3b; /* Yellow */
-  color: black;
+.icon {
+  font-size: 20px;
 }
 
-.nav-bar.login {
-  background-color: #ff5722; /* Deep Orange */
-  color: white;
-}
-
-.nav-bar.cart {
-  background-color: #9c27b0; /* Purple */
-  color: white;
-}
-
-.nav-bar.products {
-  background-color: #03a9f4; /* Light Blue */
-  color: white;
-}
-
-.nav-bar:hover.register {
-  background-color: #cddc39; /* Lime */
-  color: black;
-}
-
-.nav-bar:hover.login {
-  background-color: #e91e63; /* Pink */
-  color: white;
-}
-
-.nav-bar:hover.cart {
-  background-color: #673ab7; /* Deep Purple */
-  color: white;
-}
-
-.nav-bar:hover.products {
-  background-color: #00bcd4; /* Cyan */
-  color: white;
-}
-
-
-
-.btn-grad {
+/* .btn-grad {
   background-image: linear-gradient(to right, #bdc3c7 0%, #667584cc 51%, #bdc3c7 100%);
   margin: 6px;
   padding: 10px 25px;
@@ -153,18 +187,18 @@ nav a svg, nav button svg {
   color: white;
   box-shadow: 0 0 20px #eee;
   border-radius: 10px;
-}
+} */
 
-.btn-grad:hover {
-  background-position: right center; /* change the direction of the change here */
+/* .btn-grad:hover {
+  background-position: right center; 
   color: #fff;
   text-decoration: none;
 }
 .btn-container {
   display: flex;
-}
+} */
 
-.btn-grad-cart {
+/* .btn-grad-cart {
   background-image: linear-gradient(to right, #06beb5b1 0%, #63d2be9e 51%, #06beb595 100%);
   margin: 6px;
   padding: 10px 27px;
@@ -175,12 +209,48 @@ nav a svg, nav button svg {
   color: white;
   box-shadow: 0 0 20px #eee;
   border-radius: 10px;
-}
-
+} */
+/* 
 .btn-grad-cart:hover {
-  background-position: right center; /* change the direction of the change here */
+  background-position: right center; 
   color: #fff;
   text-decoration: none;
+} */
+.container {
+  margin: 20px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.user-info {
+  margin-bottom: 20px;
+}
+
+.user-info h3 {
+  margin: 5px 0;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  margin-bottom: 10px;
+}
+
+.menu li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.menu li a:hover {
+  color: #E78895;
 }
 
 /* add media  */
@@ -320,6 +390,9 @@ nav a svg, nav button svg {
   width: 100%;
   height: 100%;
 }
+
+
+
 
 .info {
   background: rgba(27, 26, 26, 0.9);
@@ -488,7 +561,8 @@ table {
   border-collapse: collapse;
 }
 
-table th, table td {
+table th,
+table td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
