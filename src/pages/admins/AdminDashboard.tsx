@@ -17,16 +17,16 @@ export const AdminDashboard = () => {
       </div>
       <ul className="menu">
         <li>
-          <Link to="admin/categories">Category</Link>
+          <Link to="/dashboard/admin/categories">Category</Link>
         </li>
         <li>
-          <Link to="admin/orders">Orders</Link>
+          <Link to="/dashboard/admin/orders">Orders</Link>
         </li>
         <li>
-          <Link to="admin/products">Products</Link>
+          <Link to="/dashboard/admin/products">Products</Link>
         </li>
         <li>
-          <Link to="admin/users">Users</Link>
+          <Link to="/dashboard/admin/users">Users</Link>
         </li>
       </ul>
     </div>
