@@ -32,12 +32,7 @@ export const AdminDashboard = () => {
               Category
             </Link>
           </li>
-          <li>
-            <Link to="/dashboard/admin/orders" className="orders-link">
-              <i className="fa-solid fa-cart-arrow-down fa-lg"></i>
-              Orders
-            </Link>
-          </li>
+         
           <li>
             <Link to="/dashboard/admin/products" className="products-link">
               <i className="fa-solid fa-box-open fa-lg"></i>

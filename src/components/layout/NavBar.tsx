@@ -59,11 +59,7 @@ const NavBar = () => {
             <CartIcon value={cartItem && cartItem.length > 0 ? cartItem.length : 0} />
           </Link>
         </li>
-        <li>
-          <Link to="/products" className="nav-link products">
-            Products
-          </Link>
-        </li>
+     
       </ul>
     </nav>
   );
