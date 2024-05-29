@@ -1,52 +1,65 @@
-import useUserState from "@/components/hooks/useUserState"
-import PageTitle from "@/components/layout/PageTitle"
-import { logOutUser, updateUser } from "@/tookit/slices/UserSlice"
-import { AppDispatch } from "@/tookit/slices/store"
-import { EditData } from "@/types"
-import React, { useState } from "react"
-import { SubmitHandler, useForm } from "react-hook-form"
-import { useDispatch } from "react-redux"
+import React, { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import useUserState from "@/components/hooks/useUserState";
+import PageTitle from "@/components/layout/PageTitle";
+import { logOutUser, updateUser } from "@/tookit/slices/UserSlice";
+import { AppDispatch } from "@/tookit/slices/store";
+import { EditData } from "@/types";
 
 export const UserProfile = () => {
-  const { userData } = useUserState()
+  const { userData } = useUserState();
+  const dispatch: AppDispatch = useDispatch();
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [updateMessage, setUpdateMessage] = useState<string | null>(null);
 
-  const dispatch: AppDispatch = useDispatch()
-
-  const handleLogout = () => {
-    dispatch(logOutUser())
-  }
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors }
-  } = useForm<EditData>()
-  const [isFormOpen, setIsFormOpen] = useState(false)
+  } = useForm<EditData>();
+
+  const handleLogout = () => {
+    dispatch(logOutUser());
+  };
+
   const onSubmit: SubmitHandler<EditData> = async (data) => {
     if (!userData?.userId) {
-      console.log("User id not found")
-      return
+      console.error("User ID not found");
+      return;
     }
 
     try {
-      const jwt = localStorage.getItem("jwt")
+      const jwt = localStorage.getItem("jwt");
       if (!jwt) {
-        console.error("JWT token not found")
-        return
+        console.error("JWT token not found");
+        return;
       }
 
       const response = await dispatch(
         updateUser({ updateUserData: data, userId: userData.userId, jwt })
-      )
-      console.log(response)
+      );
+
+      console.log("Update response:", response);
+
+      if (response.payload.success) {
+        setUpdateMessage("Profile updated successfully!");
+        setIsFormOpen(false); // Close the form upon successful update
+      } else {
+        setUpdateMessage("Failed to update profile.");
+      }
     } catch (error) {
-      console.error("Update user error:", error)
+      console.error("Update user error:", error);
+      setUpdateMessage("An error occurred while updating the profile.");
     }
-  }
+  };
+
   const handleCancel = () => {
-    setIsFormOpen(false)
-    reset()
-  }
+    setIsFormOpen(false);
+    reset();
+    setUpdateMessage(null);
+  };
 
   return (
     <div>
@@ -93,6 +106,11 @@ export const UserProfile = () => {
           {isFormOpen && (
             <div className="max-w-md p-6 rounded-lg shadow-md bg-gray-800">
               <h2 className="text-2xl font-bold text-white mb-6">Update Your Profile</h2>
+              {updateMessage && (
+                <div className="mb-4 text-white">
+                  {updateMessage}
+                </div>
+              )}
               <form method="post" onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-300" htmlFor="first-name">
@@ -182,7 +200,7 @@ export const UserProfile = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UserProfile
+export default UserProfile;
