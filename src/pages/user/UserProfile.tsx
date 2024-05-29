@@ -29,7 +29,7 @@ export const UserProfile = () => {
     }
 
     try {
-      const jwt = localStorage.getItem("jwt")
+      const jwt = localStorage.getItem("token")
       if (!jwt) {
         console.error("JWT token not found")
         return

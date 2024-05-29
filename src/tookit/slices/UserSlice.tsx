@@ -54,7 +54,7 @@ export const loginUser = createAsyncThunk("user/login", async (UserData: loginFo
 export const updateUser = createAsyncThunk(
   "user/updateUser",
   async ({ updateUserData, userId, jwt }: UpdateUserPayload, thunkAPI) => {
-    const token = localStorage.getItem("jwt")
+    const token = localStorage.getItem("token")
     if (!token) {
       throw new Error("JWT token not found")
     }
@@ -150,7 +150,9 @@ const UserSlice = createSlice({
           localStorage.setItem(
             "loginData",
             JSON.stringify({
+              isLoggedIn: state.isLoggedIn,
               userData: state.userData,
+              token: state.token
             })
           )
         }
