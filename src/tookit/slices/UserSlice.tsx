@@ -39,12 +39,14 @@ export const DeleteUser = createAsyncThunk("users/DeleteUser", async (userId: st
   return userId
 })
 
-export const RegisterUser = createAsyncThunk("user/registerUser", async (newUser: User) => {
+export const RegisterUser = createAsyncThunk("users/register", async (newUser: User) => {
   const response = await api.post(`/users/register`, newUser)
+  console.log(response)
   return response.data
 })
 
-export const loginUser = createAsyncThunk("user/loginUser", async (UserData: loginFormData) => {
+
+export const loginUser = createAsyncThunk("user/login", async (UserData: loginFormData) => {
   const response = await api.post(`/users/login`, UserData)
   return response.data
 })
@@ -148,9 +150,7 @@ const UserSlice = createSlice({
           localStorage.setItem(
             "loginData",
             JSON.stringify({
-              isLoggedIn: state.isLoggedIn,
               userData: state.userData,
-              token: state.token
             })
           )
         }
